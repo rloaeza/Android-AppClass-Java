@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">AppClass</string>
+    <string name="noCompatible">No compatible</string>
+    <string name="noBluetooth">Lamentablemente su dispositivo no dispone del módulo Bluetooth</string>
+    <string name="salir">Salir</string>
+    <string name="pinCode">Pin Code</string>
+    <string name="ayudaLoginCorto">\?</string>
+    <string name="ayudaLoginLargo">¿Ayuda con mi PIN? </string>
+    <string name="ayudaLogin">\nPara obtener tu PinCode accede a \"www.appclass.com/reg/\" con el siguiente valor
+    MAC_BT o 5555 para evaluación sin respaldo en la nube\n</string>
 </resources>

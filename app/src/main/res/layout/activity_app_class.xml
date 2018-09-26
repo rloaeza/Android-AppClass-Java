@@ -6,13 +6,205 @@
     android:layout_height="match_parent"
     tools:context=".AppClass">
 
-    <TextView
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/fondo1" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/pinCode"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+    <ProgressBar
+        android:id="@+id/pbPinCode"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.559"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pbPinCode">
+
+        <Button
+            android:id="@+id/b0"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0"
+            android:textSize="16dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <Button
+            android:id="@+id/b1"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="1"
+            android:textSize="16dp"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <Button
+            android:id="@+id/b2"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="2"
+            android:textSize="16dp"
+            tools:layout_editor_absoluteX="72dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <Button
+            android:id="@+id/b3"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="3"
+            android:textSize="16dp"
+            tools:layout_editor_absoluteX="104dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <Button
+            android:id="@+id/b4"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="4"
+            android:textSize="16dp"
+            tools:layout_editor_absoluteX="136dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <Button
+            android:id="@+id/b5"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="5"
+            android:textSize="16dp"
+            tools:layout_editor_absoluteX="168dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <Button
+            android:id="@+id/b6"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="6"
+            android:textSize="16dp"
+            tools:layout_editor_absoluteX="200dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <Button
+            android:id="@+id/b7"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="7"
+            android:textSize="16dp"
+            tools:layout_editor_absoluteX="232dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <Button
+            android:id="@+id/b8"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="8"
+            android:textSize="16dp"
+            tools:layout_editor_absoluteX="264dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <Button
+            android:id="@+id/b9"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="9"
+            android:textSize="16dp"
+            tools:layout_editor_absoluteX="296dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <Button
+            android:id="@+id/bX"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="X"
+            android:textSize="16dp"
+            tools:layout_editor_absoluteX="337dp"
+            tools:layout_editor_absoluteY="48dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bAyuda"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/ayudaLoginCorto"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ayudaPinCode"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/fondoAyuda"
+        android:text="Para obtener tu pin accede a url y usa la siguiente MAC"
+        android:textAlignment="center"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
