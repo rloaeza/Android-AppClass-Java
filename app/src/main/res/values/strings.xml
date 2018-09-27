@@ -8,4 +8,6 @@
     <string name="ayudaLoginLargo">¿Ayuda con mi PIN? </string>
     <string name="ayudaLogin">\nPara obtener tu PinCode accede a \"www.appclass.com/reg/\" con el siguiente valor
     MAC_BT o 5555 para evaluación sin respaldo en la nube\n</string>
+    <string name="nombreClase">Nombre de la clase</string>
+    <string name="cantidadAlumnos"># alumnos</string>
 </resources>
