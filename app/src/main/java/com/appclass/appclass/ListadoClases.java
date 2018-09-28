@@ -55,7 +55,7 @@ public class ListadoClases extends AppCompatActivity {
         databaseReference.child(FireBaseReferences.Personas).child(btMacLocal).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
+                if(!dataSnapshot.exists()) {
                     databaseReference.child(FireBaseReferences.Personas).child(btMacLocal).setValue(
                             new Persona("","", "", btMacLocal, "")
                     );
