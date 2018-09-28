@@ -1,59 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tvNombreClase"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="293dp"
+        android:layout_height="57dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/nombreClase"
+        android:layout_marginTop="14dp"
+        android:text="TextView"
         android:textAlignment="center"
         android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/bBorrar"
-        app:layout_constraintEnd_toStartOf="@+id/bEditar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/bEditar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/configuracion" />
-
-    <ImageButton
-        android:id="@+id/bBorrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bEditar"
-        app:srcCompat="@drawable/borrarclase" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvCantidadAlumnos"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/cantidadAlumnos"
-        app:layout_constraintBottom_toBottomOf="@+id/bBorrar"
-        app:layout_constraintEnd_toEndOf="@+id/tvNombreClase"
-        app:layout_constraintStart_toStartOf="@+id/tvNombreClase"
-        app:layout_constraintTop_toBottomOf="@+id/tvNombreClase" />
+        android:layout_width="293dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvNombreClase"
+        android:layout_below="@+id/tvNombreClase"
+        android:text="TextView" />
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/ivEditar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/tvNombreClase"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/configuracion" />
+
+</RelativeLayout>

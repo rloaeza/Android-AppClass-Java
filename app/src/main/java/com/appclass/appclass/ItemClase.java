@@ -5,9 +5,9 @@ public class ItemClase {
     private String descripcion;
     private String codigo;
     private boolean activa;
-    private String cantidadAlumnos;
+    private int cantidadAlumnos;
 
-    public ItemClase(String nombreClase, String descripcion, String codigo, boolean activa, String cantidadAlumnos) {
+    public ItemClase(String nombreClase, String descripcion, String codigo, boolean activa, int cantidadAlumnos) {
         this.nombreClase = nombreClase;
         this.descripcion = descripcion;
         this.codigo = codigo;
@@ -47,11 +47,11 @@ public class ItemClase {
         this.activa = activa;
     }
 
-    public String getCantidadAlumnos() {
+    public int getCantidadAlumnos() {
         return cantidadAlumnos;
     }
 
-    public void setCantidadAlumnos(String cantidadAlumnos) {
+    public void setCantidadAlumnos(int cantidadAlumnos) {
         this.cantidadAlumnos = cantidadAlumnos;
     }
 }

@@ -9,5 +9,8 @@
     <string name="ayudaLogin">\nPara obtener tu PinCode accede a \"www.appclass.com/reg/\" con el siguiente valor
     MAC_BT o 5555 para evaluación sin respaldo en la nube\n</string>
     <string name="nombreClase">Nombre de la clase</string>
+    <string name="listadoClases">Listado de clases</string>
     <string name="cantidadAlumnos"># alumnos</string>
+    <string name="agregarClase">Agregar Clase</string>
+    <string name="borrarTodasClases">Borrar todas las clases</string>
 </resources>
