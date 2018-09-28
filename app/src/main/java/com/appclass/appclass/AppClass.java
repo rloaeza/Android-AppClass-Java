@@ -21,7 +21,6 @@ public class AppClass extends AppCompatActivity {
 
     private EditText etCorreo;
     private EditText etClave;
-    private String btMacLocal;
 
     private FirebaseAuth.AuthStateListener authStateListener;
 
@@ -54,8 +53,7 @@ public class AppClass extends AppCompatActivity {
 
             etCorreo = findViewById(R.id.etCorreo);
             etClave = findViewById(R.id.etClave);
-            btMacLocal = android.provider.Settings.Secure.getString(this.getContentResolver(), "bluetooth_address");
-            Log.e("BT MAC", btMacLocal);
+
 
             findViewById(R.id.bIniciarSesion).setOnClickListener(e->{
                 if(verificarCorreoClave())
