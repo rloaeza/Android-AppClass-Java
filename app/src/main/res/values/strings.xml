@@ -1,4 +1,16 @@
 <resources>
+    <string name="iniciarSesionErrorIniciar">Error en usuario y/o constraseña</string>
+    <string name="iniciarSesionErrorRegistrar">Error al registrar usuario, verifique datos por favor</string>
+    <string name="iniciarSesionRegistrarCorrecto">¡Usuario registrado correctamente!</string>
+    <string name="iniciarSesionCamposVacios">Faltan datos de entrada</string>
+    <string name="iniciarSesionClaveError">Las claves no coinciden</string>
+    <string name="iniciarSesion">Iniciar sesión</string>
+    <string name="verificarClave">Verifique su clave</string>
+    <string name="Registrar">Registrar</string>
+    <string name="correo">Correo</string>
+    <string name="clave">Contraseña</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
     <string name="app_name">AppClass</string>
     <string name="noCompatible">No compatible</string>
     <string name="noBluetooth">Lamentablemente su dispositivo no dispone del módulo Bluetooth</string>
@@ -13,4 +25,6 @@
     <string name="cantidadAlumnos"># alumnos</string>
     <string name="agregarClase">Agregar Clase</string>
     <string name="borrarTodasClases">Borrar todas las clases</string>
+    <string name="cerrarSesion">Cerrar sesión</string>
+    <string name="salirBackDoble">Oprima una vez más para salir</string>
 </resources>

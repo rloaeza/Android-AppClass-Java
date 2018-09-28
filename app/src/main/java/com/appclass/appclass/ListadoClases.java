@@ -2,6 +2,7 @@ package com.appclass.appclass;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -14,7 +15,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class ListadoClases extends AppCompatActivity {
+
+    boolean doubleBackToExitPressedOnce = false;
+
+
     private ItemClaseAdapter lvClasesAdapter;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,32 +53,43 @@ public class ListadoClases extends AppCompatActivity {
                 lvClasesAdapter.clear();
                 break;
             case R.id.menuAgregarClase:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Materia");
 
-                final EditText input = new EditText(this);
-
-                input.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
-                builder.setView(input);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        lvClasesAdapter.add(new ItemClase(input.getText().toString(), "","",true, 10 + (int)(Math.random()*40)) );
-
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                builder.show();
-
-
+                AlertDialog.Builder builderClaseNueva = new AlertDialog.Builder(this);
+                builderClaseNueva.setTitle( getString(R.string.nombreClase) );
+                final EditText etNombreClaseNueva = new EditText(this);
+                etNombreClaseNueva.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+                builderClaseNueva.setView(etNombreClaseNueva);
+                builderClaseNueva.setPositiveButton(getString(R.string.aceptar), (dialog, which) -> lvClasesAdapter.add(new ItemClase(etNombreClaseNueva.getText().toString(), "","",true, 10 + (int)(Math.random()*40)) ));
+                builderClaseNueva.setNegativeButton(getString(R.string.cancelar), (dialog, which) -> dialog.cancel());
+                builderClaseNueva.show();
+                
+                break;
+            case R.id.menuCerrarSesion:
+                FirebaseAuth.getInstance().signOut();
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+
+            finishAffinity();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, getString(R.string.salirBackDoble), Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }
