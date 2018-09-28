@@ -57,7 +57,7 @@ public class ListadoClases extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
                     databaseReference.child(FireBaseReferences.Personas).child(btMacLocal).setValue(
-                            new Persona("Roberto23","Loaeza", "Valerio", btMacLocal, "email")
+                            new Persona("","", "", btMacLocal, "")
                     );
                 }
 
