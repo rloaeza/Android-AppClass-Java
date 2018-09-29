@@ -14,16 +14,18 @@
         android:layout_marginTop="14dp"
         android:text="TextView"
         android:textAlignment="center"
+        android:textColor="@color/colorTexto"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvCantidadAlumnos"
-        android:layout_width="293dp"
+        android:layout_width="184dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvNombreClase"
         android:layout_below="@+id/tvNombreClase"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textColor="@color/colorTexto2" />
 
     <ImageView
         android:id="@+id/ivEditar"
@@ -33,5 +35,15 @@
         android:layout_alignTop="@+id/tvNombreClase"
         android:layout_marginEnd="15dp"
         android:background="@drawable/configuracion" />
+
+    <TextView
+        android:id="@+id/tvCodigo"
+        android:layout_width="109dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tvNombreClase"
+        android:layout_below="@+id/tvNombreClase"
+        android:text="TextView"
+        android:textAlignment="textEnd"
+        android:textColor="@color/colorTexto2" />
 
 </RelativeLayout>

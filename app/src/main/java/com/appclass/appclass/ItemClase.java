@@ -7,6 +7,32 @@ public class ItemClase {
     private boolean activa;
     private int cantidadAlumnos;
 
+    public static String genCodigo(int longitud) {
+        String codigo="";
+        char c;
+        while(codigo.length()<longitud) {
+            if(Math.random()<0.5) {
+                c =(char) getChar(true);
+            }
+            else {
+                c =(char) getChar(false);
+            }
+            codigo = codigo.concat( String.valueOf(c));
+        }
+        return codigo;
+    }
+
+    private static int getChar(boolean min) {
+        int c = (int)(Math.random()*26);
+        if( min ) {
+            return c+97;
+        }
+        else {
+            return c+65;
+        }
+    }
+
+    public ItemClase() {}
     public ItemClase(String nombreClase, String descripcion, String codigo, boolean activa, int cantidadAlumnos) {
         this.nombreClase = nombreClase;
         this.descripcion = descripcion;

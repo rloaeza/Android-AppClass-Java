@@ -34,6 +34,7 @@ public class ItemClaseAdapter extends ArrayAdapter<ItemClase>{
 
         TextView tvNombreClase = convertView.findViewById(R.id.tvNombreClase);
         TextView tvCantidadAlumnos = convertView.findViewById(R.id.tvCantidadAlumnos);
+        TextView tvCodigo = convertView.findViewById(R.id.tvCodigo);
         ImageView ivEditar = convertView.findViewById(R.id.ivEditar);
 
         ItemClase itemClase = getItem(position);
@@ -41,9 +42,13 @@ public class ItemClaseAdapter extends ArrayAdapter<ItemClase>{
 
         tvNombreClase.setText( itemClase.getNombreClase() );
         tvCantidadAlumnos.setText( convertView.getResources().getString(R.string.cantidadAlumnos).replace("#", itemClase.getCantidadAlumnos()+""));
+        tvCodigo.setText(itemClase.getCodigo());
 
         View finalConvertView = convertView;
-        ivEditar.setOnClickListener(e-> Toast.makeText(finalConvertView.getContext(), "Clickme on "+position, Toast.LENGTH_SHORT).show());
+        ivEditar.setOnClickListener(e->  {
+
+            Toast.makeText(finalConvertView.getContext(), itemClase.getNombreClase(), Toast.LENGTH_SHORT).show();
+        });
 
 
 
