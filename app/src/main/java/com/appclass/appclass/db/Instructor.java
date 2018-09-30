@@ -1,16 +1,16 @@
 package com.appclass.appclass.db;
 
-public class Persona {
+public class Instructor {
     private String nombre;
     private String apaterno;
     private String amaterno;
     private String btMAC;
     private String correo;
 
-    public Persona() {
+    public Instructor() {
     }
 
-    public Persona(String nombre, String apaterno, String amaterno, String btMAC, String correo) {
+    public Instructor(String nombre, String apaterno, String amaterno, String btMAC, String correo) {
         this.nombre = nombre;
         this.apaterno = apaterno;
         this.amaterno = amaterno;

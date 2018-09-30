@@ -27,4 +27,17 @@
     <string name="borrarTodasClases">Borrar todas las clases</string>
     <string name="cerrarSesion">Cerrar sesión</string>
     <string name="salirBackDoble">Oprima una vez más para salir</string>
+    <string name="alumnoId">Id Control</string>
+    <string name="alumnoNombre">Nombre</string>
+    <string name="alumnoApaterno">Apellido Paterno</string>
+    <string name="alumnoAmaterno">Apellido Materno</string>
+    <string name="alumnoBT">MAC Bluetooth</string>
+    <string name="alumnoCorreo">Correo electrónico</string>
+    <string name="agregarAlumno">Agregar Alumno</string>
+    <string name="alumnoRegistro">Alumno registrado</string>
+    <string name="alumnoRegistroError">Error al insertar, favor de verificar los datos</string>
+    <string name="alumnoRegistroExistente">Error al insertar, el registro ya existe</string>
+
+    <string name="claseAsistenciaBuscarBT">Buscar BT</string>
+    <string name="claseAsistenciaTerminar">Terminar</string>
 </resources>

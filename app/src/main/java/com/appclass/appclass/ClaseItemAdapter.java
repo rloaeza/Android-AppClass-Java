@@ -1,7 +1,6 @@
 package com.appclass.appclass;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class ItemClaseAdapter extends ArrayAdapter<ItemClase>{
+public class ClaseItemAdapter extends ArrayAdapter<Clase>{
 
-    public ItemClaseAdapter(Context context, List<ItemClase> objects) {
+    public ClaseItemAdapter(Context context, List<Clase> objects) {
         super(context, 0, objects);
 
 
@@ -37,7 +36,7 @@ public class ItemClaseAdapter extends ArrayAdapter<ItemClase>{
         TextView tvCodigo = convertView.findViewById(R.id.tvCodigo);
         ImageView ivEditar = convertView.findViewById(R.id.ivEditar);
 
-        ItemClase itemClase = getItem(position);
+        Clase itemClase = getItem(position);
 
 
         tvNombreClase.setText( itemClase.getNombreClase() );

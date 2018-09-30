@@ -13,7 +13,9 @@
 
 
         >
-        <activity android:name=".ListadoClases"  android:screenOrientation="portrait"></activity>
+        <activity android:name=".ClaseAsistencia"  android:screenOrientation="portrait"></activity>
+        <activity android:name=".AlumnoDatos"  android:screenOrientation="portrait"></activity>
+        <activity android:name=".ClaseListado"  android:screenOrientation="portrait"></activity>
         <activity android:name=".AppClass"  android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

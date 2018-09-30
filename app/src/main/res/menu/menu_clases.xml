@@ -5,6 +5,9 @@
         android:id="@+id/menuAgregarClase"
         android:title="@string/agregarClase" />
     <item
+        android:id="@+id/menuAgregarAlumno"
+        android:title="@string/agregarAlumno" />
+    <item
         android:id="@+id/menuCerrarSesion"
         android:title="@string/cerrarSesion" />
 </menu>

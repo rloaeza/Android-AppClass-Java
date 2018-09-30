@@ -1,6 +1,6 @@
 package com.appclass.appclass;
 //http://www.hermosaprogramacion.com/2014/10/android-listas-adaptadores/
-public class ItemClase {
+public class Clase {
     private String nombreClase;
     private String descripcion;
     private String codigo;
@@ -32,8 +32,8 @@ public class ItemClase {
         }
     }
 
-    public ItemClase() {}
-    public ItemClase(String nombreClase, String descripcion, String codigo, boolean activa, int cantidadAlumnos) {
+    public Clase() {}
+    public Clase(String nombreClase, String descripcion, String codigo, boolean activa, int cantidadAlumnos) {
         this.nombreClase = nombreClase;
         this.descripcion = descripcion;
         this.codigo = codigo;

@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -110,7 +109,7 @@ public class AppClass extends AppCompatActivity {
     }
 
     private void iniciarAppClass() {
-        Intent intent = new Intent(this, ListadoClases.class);
+        Intent intent = new Intent(this, ClaseListado.class);
         startActivity(intent);
     }
     private void registrar(String email, String password) {
