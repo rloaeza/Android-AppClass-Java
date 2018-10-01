@@ -10,7 +10,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.appclass.appclass.db.Alumno;
 import com.google.firebase.database.DataSnapshot;
@@ -68,7 +68,7 @@ public class AlumnoItemAdapter extends ArrayAdapter<Alumno>{
                     rbAlumno.isChecked()?"1":"0"
             );
 
-            Toast.makeText(getContext(), fecha+"->"+itemAlumno.getNombreCompleto(), Toast.LENGTH_SHORT).show();
+
 
 
         });

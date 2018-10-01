@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+
 
 import com.appclass.appclass.db.Alumno;
 import com.google.firebase.auth.FirebaseAuth;
@@ -156,7 +156,7 @@ public class ClaseAsistencia extends AppCompatActivity {
                     Alumno alumno = item.getValue(Alumno.class);
                     listaAlumnosClase.add(alumno);
                 }
-                Toast.makeText(ClaseAsistencia.this, ""+listaAlumnosClase.size(), Toast.LENGTH_SHORT).show();
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -218,7 +218,7 @@ public class ClaseAsistencia extends AppCompatActivity {
                         Alumno alumno = item.getValue(Alumno.class);
                         listaAlumnos.add(alumno);
                     }
-                    //Toast.makeText(ClaseAsistencia.this, "" + listaAlumnosClase.size(), Toast.LENGTH_SHORT).show();
+
                     bCrearLista.setVisibility(View.INVISIBLE);
                     bBuscarBT.setVisibility(View.VISIBLE);
                     bTerminar.setVisibility(View.VISIBLE);
