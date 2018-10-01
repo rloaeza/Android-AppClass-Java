@@ -15,4 +15,5 @@ public class AppClassReferencias {
 
     public static  String bdNombreClase = "nombreClase";
     public static  String bdCantidadAlumnos = "cantidadAlumnos";
+    public static  String bdAsistio = "asistio";
 }
