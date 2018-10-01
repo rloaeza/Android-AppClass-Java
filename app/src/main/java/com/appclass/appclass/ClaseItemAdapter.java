@@ -1,6 +1,7 @@
 package com.appclass.appclass;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class ClaseItemAdapter extends ArrayAdapter<Clase>{
 
@@ -43,10 +46,16 @@ public class ClaseItemAdapter extends ArrayAdapter<Clase>{
         tvCantidadAlumnos.setText( convertView.getResources().getString(R.string.cantidadAlumnos).replace("#", itemClase.getCantidadAlumnos()+""));
         tvCodigo.setText(itemClase.getCodigo());
 
-        View finalConvertView = convertView;
-        ivEditar.setOnClickListener(e->  {
 
-            Toast.makeText(finalConvertView.getContext(), itemClase.getNombreClase(), Toast.LENGTH_SHORT).show();
+        ivEditar.setOnClickListener(e->  {
+            Intent intent = new Intent(this.getContext(), ClaseDetalles.class);
+            intent.putExtra(AppClassReferencias.claseCodigo, itemClase.getCodigo());
+            intent.putExtra(AppClassReferencias.claseNombre, itemClase.getNombreClase());
+            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+            getContext().startActivity(intent);
+
+
+
         });
 
 

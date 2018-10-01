@@ -40,4 +40,9 @@
 
     <string name="claseAsistenciaBuscarBT">Buscar BT</string>
     <string name="claseAsistenciaTerminar">Terminar</string>
+    <string name="claseAsistenciaCrearLista">Crear lista</string>
+    <string name="claseConfirmarBorrarMSG">Escriba \"#\" para borrar la clase</string>
+    <string name="claseConfirmarLimpiarMSG">Escriba \"#\" para limpiar la clase</string>
+    <string name="claseConfirmarCodigo">confirmar</string>
+    <string name="claseDetalles">Detalles de la clase</string>
 </resources>

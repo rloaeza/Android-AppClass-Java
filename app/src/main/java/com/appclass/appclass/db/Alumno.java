@@ -7,17 +7,36 @@ public class Alumno {
     private String amaterno;
     private String btMAC;
     private String correo;
+    private String Asistio;
 
     public Alumno() {
     }
 
-    public Alumno(String id, String nombre, String apaterno, String amaterno, String btMAC, String correo) {
+    public Alumno(String id, String nombre, String apaterno, String amaterno, String btMAC, String correo, String asistio) {
         this.id = id;
         this.nombre = nombre;
         this.apaterno = apaterno;
         this.amaterno = amaterno;
         this.btMAC = btMAC;
         this.correo = correo;
+        this.Asistio = asistio;
+    }
+
+    @Override
+    public String toString() {
+        return getId() + " - " + getNombreCompleto();
+    }
+
+    public String getNombreCompleto() {
+        return getApaterno() + " " + getAmaterno() + ", " + getNombre();
+    }
+
+    public String getAsistio() {
+        return Asistio;
+    }
+
+    public void setAsistio(String asistio) {
+        Asistio = asistio;
     }
 
     public String getId() {

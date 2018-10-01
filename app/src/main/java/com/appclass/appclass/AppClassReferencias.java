@@ -13,4 +13,7 @@ public class AppClassReferencias {
 
     public static String  claseCodigo = "clase Codigo";
     public static String  claseNombre = "clase Nombre";
+
+    public static  String bdNombreClase = "nombreClase";
+    public static  String bdCantidadAlumnos = "cantidadAlumnos";
 }

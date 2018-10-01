@@ -66,7 +66,7 @@ public class AlumnoDatos extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(!dataSnapshot.exists()) {
-                        Alumno alumno = new Alumno(id, nombre, aPaterno, aMaterno, bt, correoAlumno);
+                        Alumno alumno = new Alumno(id, nombre, aPaterno, aMaterno, bt, correoAlumno, "0");
 
                         databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Alumnos).child(id).setValue(
                                 alumno

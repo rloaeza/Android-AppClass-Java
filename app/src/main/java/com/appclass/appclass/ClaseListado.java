@@ -143,7 +143,7 @@ public class ClaseListado extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if(!dataSnapshot.exists()) {
                                 String codigo = Clase.genCodigo(AppClassReferencias.tamCodigo);
-                                Clase itemClase = new Clase(etNombreClaseNueva.getText().toString(), "", codigo, true, 10 + (int) (Math.random() * 40));
+                                Clase itemClase = new Clase(etNombreClaseNueva.getText().toString(), "", codigo, true, 0);
                                 databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(codigo).setValue(
                                         itemClase
                                 );

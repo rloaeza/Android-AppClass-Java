@@ -13,6 +13,7 @@
 
 
         >
+        <activity android:name=".ClaseDetalles"  android:screenOrientation="portrait"></activity>
         <activity android:name=".ClaseAsistencia"  android:screenOrientation="portrait"></activity>
         <activity android:name=".AlumnoDatos"  android:screenOrientation="portrait"></activity>
         <activity android:name=".ClaseListado"  android:screenOrientation="portrait"></activity>
