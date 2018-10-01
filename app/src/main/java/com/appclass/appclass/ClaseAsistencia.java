@@ -2,6 +2,7 @@ package com.appclass.appclass;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,13 +15,18 @@ import android.widget.Toast;
 
 import com.appclass.appclass.db.Alumno;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class ClaseAsistencia extends AppCompatActivity {
 
@@ -36,6 +42,13 @@ public class ClaseAsistencia extends AppCompatActivity {
 
 
     String fechaLista;
+
+
+    private FirebaseDatabase firebaseDatabase ;
+    private DatabaseReference databaseReference;
+
+    private List<Alumno> listaAlumnosClase;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,25 +90,86 @@ public class ClaseAsistencia extends AppCompatActivity {
 
         bTerminar.setOnClickListener(e -> finish() );
 
-        if(listaAlumnos.isEmpty()) {
-            bCrearLista.setVisibility(View.VISIBLE);
-            bBuscarBT.setVisibility(View.INVISIBLE);
-            bTerminar.setVisibility(View.INVISIBLE);
-        }
+
 
 
         bCrearLista.setOnClickListener(e-> {
-            bCrearLista.setVisibility(View.INVISIBLE);
-            bBuscarBT.setVisibility(View.VISIBLE);
-            bTerminar.setVisibility(View.VISIBLE);
-            for(int i=0; i<10; i++) {
-                listaAlumnos.add(new Alumno("1", "Roberto", "Loaeza", "Valerio", "MAC", "email", "0"));
-                listaAlumnos.add(new Alumno("2", "Iker", "Loaeza", "Gutierrez", "MAC", "email", "1"));
-                listaAlumnos.add(new Alumno("3", "Irma", "Gutierrez", "Miranda", "MAC", "email", "0"));
+
+
+
+
+            databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo).child(AppClassReferencias.Asistencias).child(fechaLista).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(Alumno alumno : listaAlumnosClase) {
+                        alumno.setAsistio("0");
+                        //listaAlumnos.add(alumno);
+
+                        databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo).child(AppClassReferencias.Asistencias).child(fechaLista).child(alumno.getId()).setValue(alumno);
+                    }
+                    bCrearLista.setVisibility(View.INVISIBLE);
+                    bBuscarBT.setVisibility(View.VISIBLE);
+                    bTerminar.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        });
+
+
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference(AppClassReferencias.AppClass);
+
+        listaAlumnosClase = new ArrayList<>();
+
+        ValueEventListener postListenerCargarAlumno = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaAlumnosClase.clear();
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    Alumno alumno = item.getValue(Alumno.class);
+                    listaAlumnosClase.add(alumno);
+                }
+                Toast.makeText(ClaseAsistencia.this, ""+listaAlumnosClase.size(), Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+        };
+        databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo).child(AppClassReferencias.Alumnos).addValueEventListener(postListenerCargarAlumno);
 
-        });
+
+        ValueEventListener postListenerCargarListaAsistencia = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    listaAlumnos.clear();
+                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                        Alumno alumno = item.getValue(Alumno.class);
+                        listaAlumnos.add(alumno);
+                    }
+                    Toast.makeText(ClaseAsistencia.this, "" + listaAlumnosClase.size(), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    bCrearLista.setVisibility(View.VISIBLE);
+                    bBuscarBT.setVisibility(View.INVISIBLE);
+                    bTerminar.setVisibility(View.INVISIBLE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo).child(AppClassReferencias.Asistencias).child(fechaLista).addValueEventListener(postListenerCargarListaAsistencia);
+
+
+
 
     }
 
