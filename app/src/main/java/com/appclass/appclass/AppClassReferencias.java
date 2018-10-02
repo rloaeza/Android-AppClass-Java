@@ -1,6 +1,8 @@
 package com.appclass.appclass;
 
 public class AppClassReferencias {
+
+    public static String TAG_Debug = "AppClass_Debug";
     public static String AppClass = "AppClass";
     public static String Personas = "instructores";
     public static String Clases = "clases";

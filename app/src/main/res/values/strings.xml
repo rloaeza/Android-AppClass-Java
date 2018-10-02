@@ -45,4 +45,5 @@
     <string name="claseConfirmarLimpiarMSG">Escriba \"#\" para limpiar la clase</string>
     <string name="claseConfirmarCodigo">confirmar</string>
     <string name="claseDetalles">Detalles de la clase</string>
+    <string name="claseListaConfirmarMSG">Escriba \"#\" para borrar la lista</string>
 </resources>

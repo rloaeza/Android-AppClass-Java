@@ -11,13 +11,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 
@@ -45,6 +48,7 @@ public class ClaseAsistencia extends AppCompatActivity {
     ListView lvAlumnos;
     String claseCodigo;
     String claseNombre;
+    ImageView ivBorrarLista;
 
     AlumnoItemAdapter listaAlumnos;
 
@@ -74,6 +78,7 @@ public class ClaseAsistencia extends AppCompatActivity {
         bTerminar = findViewById(R.id.bTerminar);
         lvAlumnos = findViewById(R.id.lvAlumnos);
         bCrearLista = findViewById(R.id.bCrearLista);
+        ivBorrarLista = findViewById(R.id.ivBorrarLista);
 
 
 
@@ -195,10 +200,53 @@ public class ClaseAsistencia extends AppCompatActivity {
                         }
                     }, 15000);
                 }
-                Log.e("BT", "Iniciando BT -> "+b);
+                Log.e(AppClassReferencias.TAG_Debug, "Iniciando BT");
                 IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
                 registerReceiver(broadcastReceiver,filter);
             }
+        });
+
+
+
+
+
+
+        ivBorrarLista.setOnClickListener( e-> {
+
+            AlertDialog.Builder builderClaseNueva = new AlertDialog.Builder(this);
+            builderClaseNueva.setTitle(getString(R.string.claseListaConfirmarMSG).replace("#", getString(R.string.claseConfirmarCodigo)));
+
+            final EditText etNombreClaseNueva = new EditText(this);
+            etNombreClaseNueva.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+            builderClaseNueva.setView(etNombreClaseNueva);
+            builderClaseNueva.setPositiveButton(getString(R.string.aceptar), (dialog, which) -> {
+                        String msg = etNombreClaseNueva.getText().toString();
+
+                        if(!msg.equals(getString(R.string.claseConfirmarCodigo)))
+                            return;
+                        databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo).child(AppClassReferencias.Asistencias).child(fechaLista).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()) {
+
+                                    databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo).child(AppClassReferencias.Asistencias).child(fechaLista).removeValue();
+
+                                }
+
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) { }
+                        });
+
+
+
+                    }
+
+            );
+
+            builderClaseNueva.setNegativeButton(getString(R.string.cancelar), (dialog, which) -> dialog.cancel());
+            builderClaseNueva.show();
+
         });
 
     }
@@ -220,10 +268,13 @@ public class ClaseAsistencia extends AppCompatActivity {
                     }
 
                     bCrearLista.setVisibility(View.INVISIBLE);
+                    ivBorrarLista.setVisibility(View.VISIBLE);
                     bBuscarBT.setVisibility(View.VISIBLE);
                     bTerminar.setVisibility(View.VISIBLE);
                 } else {
+
                     bCrearLista.setVisibility(View.VISIBLE);
+                    ivBorrarLista.setVisibility(View.INVISIBLE);
                     bBuscarBT.setVisibility(View.INVISIBLE);
                     bTerminar.setVisibility(View.INVISIBLE);
                 }
@@ -267,8 +318,11 @@ public class ClaseAsistencia extends AppCompatActivity {
             if(BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if(bluetoothDevice!=null) {
-                    Log.e("BT",  ""+bluetoothDevice.getAddress());
-                    Alumno alumno=existeBT(bluetoothDevice.getAddress()+"");
+
+                    if(bluetoothDevice.getName()!=null)
+                        Log.e(AppClassReferencias.TAG_Debug, bluetoothDevice.getAddress()+"->"+bluetoothDevice.getName());
+
+                    Alumno alumno=existeBT(bluetoothDevice.getAddress());
                     if( alumno !=null) {
                         if(alumno.getAsistio().equals("0"))
                           databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo).child(AppClassReferencias.Asistencias).child(fechaLista).child(alumno.getId()).child(AppClassReferencias.bdAsistio).setValue(

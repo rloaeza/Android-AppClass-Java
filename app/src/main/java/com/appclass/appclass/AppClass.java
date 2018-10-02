@@ -1,8 +1,10 @@
 package com.appclass.appclass;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +51,11 @@ public class AppClass extends AppCompatActivity {
                 startActivityForResult(enableBT, 1);
             }
 
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.BLUETOOTH_ADMIN,
+                    Manifest.permission.BLUETOOTH
+            }, 1);
 
             etCorreo = findViewById(R.id.etCorreo);
             etClave = findViewById(R.id.etClave);
