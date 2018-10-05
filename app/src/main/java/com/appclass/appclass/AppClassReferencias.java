@@ -1,5 +1,9 @@
+
 package com.appclass.appclass;
 
+
+//http://opencsv.sourceforge.net
+//compile 'com.opencsv:opencsv:3.9'
 public class AppClassReferencias {
 
     public static String TAG_Debug = "AppClass_Debug";

@@ -49,11 +49,11 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toStartOf="@+id/ivBorrarLista"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivOrdenar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -80,4 +80,14 @@
         app:layout_constraintTop_toTopOf="@+id/bFecha"
         app:layout_constraintVertical_bias="0.562"
         app:srcCompat="@drawable/borrarclase" />
+
+    <ImageView
+        android:id="@+id/ivOrdenar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/ordenadono"
+        app:layout_constraintBottom_toBottomOf="@+id/bFecha"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bFecha" />
 </android.support.constraint.ConstraintLayout>

@@ -64,7 +64,7 @@ public class AlumnoItemAdapter extends ArrayAdapter<Alumno>{
         rbAlumno.setChecked(itemAlumno.getAsistio().equals("1"));
 
         rbAlumno.setOnClickListener(e-> {
-            databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo).child(AppClassReferencias.Asistencias).child(fecha).child(itemAlumno.getId()).child(AppClassReferencias.bdAsistio).setValue(
+            databaseReference.child(AppClassReferencias.Asistencias).child(fecha).child(itemAlumno.getId()).child(AppClassReferencias.bdAsistio).setValue(
                     rbAlumno.isChecked()?"1":"0"
             );
 
