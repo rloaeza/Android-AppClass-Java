@@ -13,10 +13,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-
-
-        >
+        android:theme="@style/AppTheme">
+        <activity android:name=".Configuracion"  android:screenOrientation="portrait"></activity>
         <activity android:name=".ClaseDetalles"  android:screenOrientation="portrait"></activity>
         <activity android:name=".ClaseAsistencia"  android:screenOrientation="portrait"></activity>
         <activity android:name=".AlumnoDatos"  android:screenOrientation="portrait"></activity>

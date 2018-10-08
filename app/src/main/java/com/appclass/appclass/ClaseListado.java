@@ -166,9 +166,12 @@ public class ClaseListado extends AppCompatActivity {
                 builderClaseNueva.show();
                 
                 break;
+            case R.id.menuConfigurar:
+                startActivity(new Intent(this, Configuracion.class ));
+                break;
             case R.id.menuAgregarAlumno:
-                Intent intent = new Intent(this, AlumnoDatos.class );
-                startActivity(intent);
+
+                startActivity(new Intent(this, AlumnoDatos.class ));
                 break;
             case R.id.menuCerrarSesion:
                 FirebaseAuth.getInstance().signOut();

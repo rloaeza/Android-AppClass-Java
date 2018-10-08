@@ -2,6 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menuConfigurar"
+        android:title="@string/menuConfigurar" />
+    <item
         android:id="@+id/menuAgregarClase"
         android:title="@string/agregarClase" />
     <item

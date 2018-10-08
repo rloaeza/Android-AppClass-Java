@@ -46,4 +46,14 @@
     <string name="claseConfirmarCodigo">confirmar</string>
     <string name="claseDetalles">Detalles de la clase</string>
     <string name="claseListaConfirmarMSG">Escriba \"#\" para borrar la lista</string>
+    <string name="configuracionTitulo">Configuración</string>
+    <string name="configuracionTituloAsistencia">Asistencia</string>
+    <string name="configuracionAsistenciaAlumnosSeparados">Separar alumnos con asistencia</string>
+    <string name="configuracionAsistenciaModificarAsistenciaPasada">Permitir modificar asistencia(s) de otras fechas</string>
+    <string name="configuracionTituloSeguridad" >Seguridad</string>
+    <string name="configuracionSeguridadBorrar">No solicitar confirmacion para eliminar datos</string>
+    <string name="configuracionTituloClases">Clases</string>
+    <string name="configuracionClasesOrdenarNombre">Ordenar clases por nombre, en su defecto será por fecha de inclusión</string>
+    <string name="menuConfigurar">Configurar AppClass</string>
+    >
 </resources>

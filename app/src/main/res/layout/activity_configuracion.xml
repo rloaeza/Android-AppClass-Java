@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/configuracionTitulo"
+                android:textAlignment="center"
+                android:textColor="@color/colorTexto"
+                android:textSize="30sp" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/configuracionTituloAsistencia"
+                android:textColor="@color/colorTexto2" />
+
+            <Switch
+                android:id="@+id/sSepararAlumnos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dp"
+                android:text="@string/configuracionAsistenciaAlumnosSeparados"
+                android:textColor="@color/colorTexto3" />
+
+            <Switch
+                android:id="@+id/sModificarAsistenciaPasadas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dp"
+                android:text="@string/configuracionAsistenciaModificarAsistenciaPasada"
+                android:textColor="@color/colorTexto3" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/configuracionTituloClases"
+                android:textColor="@color/colorTexto2" />
+
+            <Switch
+                android:id="@+id/sOrdenarClasesNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dp"
+                android:text="@string/configuracionClasesOrdenarNombre"
+                android:textColor="@color/colorTexto3" />
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/configuracionTituloSeguridad"
+                android:textColor="@color/colorTexto2" />
+
+            <Switch
+                android:id="@+id/sNoSolicitarConfirmacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dp"
+                android:text="@string/configuracionSeguridadBorrar"
+                android:textColor="@color/colorTexto3" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/bAceptar"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/aceptar" />
+
+    </LinearLayout>
+    </ScrollView>
