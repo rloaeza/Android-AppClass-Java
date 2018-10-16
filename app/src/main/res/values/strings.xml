@@ -55,5 +55,17 @@
     <string name="configuracionTituloClases">Clases</string>
     <string name="configuracionClasesOrdenarNombre">Ordenar clases por nombre, en su defecto será por fecha de inclusión</string>
     <string name="menuConfigurar">Configurar AppClass</string>
-    >
+
+
+
+
+
+    <string name="loginClave">Contraseña</string>
+    <string name="loginCorreo">Correo electrónico</string>
+    <string name="loginIniciarSesion">Iniciar sesión</string>
+    <string name="loginOlvideClave">olvidé mi clave</string>
+    <string name="loginIdControl">id Control</string>
+    <string name="loginNombre">Nombre</string>
+    <string name="loginApellidos">Apellidos</string>
+    <string name="loginBluetoothSolicitar">¿Bluetooth MAC?</string>
 </resources>
