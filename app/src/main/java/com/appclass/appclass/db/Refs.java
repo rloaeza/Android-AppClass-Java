@@ -15,6 +15,9 @@ public class Refs {
     public static String  claseCodigo = "clase Codigo";
     public static String  claseNombre = "clase Nombre";
     public static  String bdCantidadAlumnos = "cantidadAlumnos";
+    public static  String bdUsuarioIdControl = "idControl";
+    public static  String bdClaseNombre = "nombre";
+
 
 
 

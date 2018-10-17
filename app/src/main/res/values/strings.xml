@@ -68,4 +68,8 @@
     <string name="loginNombre">Nombre</string>
     <string name="loginApellidos">Apellidos</string>
     <string name="loginBluetoothSolicitar">¿Bluetooth MAC?</string>
+
+
+    <string name="claseDetalleBorrarAlumno">Escriba # para borrar a: $</string>
+    <string name="confirmarCodigo">confirmar</string>
 </resources>

@@ -6,13 +6,16 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 import com.appclass.appclass.db.Alumno;
@@ -142,7 +145,7 @@ public class ClaseDetalles extends AppCompatActivity {
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference(AppClassReferencias.AppClass);
+        databaseReference = firebaseDatabase.getReference(Refs.AppClass);
 
 
         databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(claseCodigo).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -157,18 +160,47 @@ public class ClaseDetalles extends AppCompatActivity {
             }
         });
 
-        databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Alumnos).addValueEventListener(postListenerAlumno);
+        databaseReference.child(Refs.usuarios).orderByChild(Refs.bdUsuarioIdControl).addValueEventListener(postListenerAlumno);
 
 
-        databaseReference.child(Refs.clases)
-                .child(claseCodigo).child(Refs.alumnos).addValueEventListener(postListenerClase);
+        databaseReference.child(Refs.clases).child(claseCodigo).child(Refs.alumnos).orderByChild(Refs.bdUsuarioIdControl).addValueEventListener(postListenerClase);
 
         bAgregar.setOnClickListener( e -> {
             Usuario alumno = listaAlumnos.get(sAlumnos.getSelectedItemPosition());
-            databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo).
-            child(AppClassReferencias.Alumnos).child(alumno.getIdControl()).setValue(alumno);
+            databaseReference.child(Refs.clases).child(claseCodigo).child(Refs.alumnos).child(Funciones.getCorreoFix(alumno.getCorreo())).setValue(alumno);
+            databaseReference.child(Refs.usuarios).child(Funciones.getCorreoFix(alumno.getCorreo())).child(Refs.clases).child(claseActual.getCodigo()).setValue(claseActual);
         });
 
+
+        lvAlumnos.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            Usuario alumno = listaAlumnosDetalles.getItem(i);
+
+
+            AlertDialog.Builder builderClaseNueva = new AlertDialog.Builder(this);
+            builderClaseNueva.setTitle(
+                    getString(R.string.claseDetalleBorrarAlumno).replace("#", getString(R.string.confirmarCodigo)).replace("$", alumno.getNombreCompleto())
+
+            );
+
+            final EditText etConfirmacion = new EditText(this);
+            etConfirmacion.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+            builderClaseNueva.setView(etConfirmacion);
+            builderClaseNueva.setPositiveButton(getString(R.string.aceptar), (dialog, which) -> {
+                String msg = etConfirmacion.getText().toString();
+
+                if(!msg.equals(getString(R.string.confirmarCodigo)))
+                    return;
+
+                databaseReference.child(Refs.clases).child(claseActual.getCodigo()).child(Refs.alumnos).child(Funciones.getCorreoFix(alumno.getCorreo())).removeValue();
+                databaseReference.child(Refs.usuarios).child(Funciones.getCorreoFix(alumno.getCorreo())).child(Refs.clases).child(claseActual.getCodigo()).removeValue();
+
+            });
+
+            builderClaseNueva.setNegativeButton(getString(R.string.cancelar), (dialog, which) -> dialog.cancel());
+            builderClaseNueva.show();
+
+            return true;
+        });
 
 
 
@@ -182,17 +214,16 @@ public class ClaseDetalles extends AppCompatActivity {
             builderClaseNueva.setPositiveButton(getString(R.string.aceptar), (dialog, which) -> {
                         String clase = etNombreClaseNueva.getText().toString();
 
-                        databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseActual.getCodigo()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(claseActual.getCodigo()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()) {
                                     claseActual.setNombre(etNombreClaseNueva.getText().toString());
-                                    databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseActual.getCodigo()).child(AppClassReferencias.bdNombreClase).setValue(
-                                            claseActual.getNombre()
-                                    );
+                                    //databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(claseActual.getCodigo()).child(Refs.bdClaseNombre).setValue(claseActual.getNombre());
+                                    //databaseReference.child(Refs.clases).child(claseActual.getCodigo()).child(Refs.bdClaseNombre).setValue(claseActual.getNombre());
+                                    actualizarNombreClase(claseActual, listaAlumnos);
                                     bNombre.setText(claseActual.getNombre());
                                 }
-
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -230,7 +261,7 @@ public class ClaseDetalles extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()) {
-
+                                    eliminarAlumnosClase(claseActual, listaAlumnos);
                                     databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(claseActual.getCodigo()).removeValue();
                                     databaseReference.child(Refs.clases).child(claseActual.getCodigo()).removeValue();
                                     finish();
@@ -269,7 +300,7 @@ public class ClaseDetalles extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()) {
-
+                                    eliminarAlumnosClase(claseActual, listaAlumnos);
                                     databaseReference.child(Refs.clases).child(claseActual.getCodigo()).child(Refs.alumnos).removeValue();
 
                                 }
@@ -293,4 +324,29 @@ public class ClaseDetalles extends AppCompatActivity {
 
 
     }
+
+
+
+    private void eliminarAlumnosClase(Clase clase, List<Usuario> alumnos) {
+        for(Usuario alumno : alumnos) {
+            databaseReference.child(Refs.usuarios).child(Funciones.getCorreoFix(alumno.getCorreo())).child(Refs.clases).child(clase.getCodigo()).removeValue();
+        }
+    }
+
+
+    private void actualizarNombreClase(Clase clase, List<Usuario> alumnos) {
+
+        // cambia el nombre en mis clases propias
+        databaseReference.child(Refs.usuarios).child(Funciones.getCorreoFix(clase.getCorreo())).child(Refs.clasesPropias).child(claseActual.getCodigo()).child(Refs.bdClaseNombre).setValue(claseActual.getNombre());
+        // cambia el nombre en clases (generales)
+        databaseReference.child(Refs.clases).child(claseActual.getCodigo()).child(Refs.bdClaseNombre).setValue(claseActual.getNombre());
+        // cambia el nombre de la clase para cada alumno inscrito
+        for(Usuario alumno: alumnos) {
+            databaseReference.child(Refs.usuarios).child(Funciones.getCorreoFix(alumno.getCorreo())).child(Refs.clases).child(claseActual.getCodigo()).child(Refs.bdClaseNombre).setValue(claseActual.getNombre());
+        }
+    }
+
+
+
+
 }

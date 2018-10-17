@@ -73,4 +73,8 @@ public class Usuario {
     public String getNombreCompleto() {
         return getIdControl() + ": " + getApellidos() + ", " + getNombre();
     }
+
+    public String toString() {
+        return getNombreCompleto();
+    }
 }
