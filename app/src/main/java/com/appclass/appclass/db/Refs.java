@@ -10,6 +10,12 @@ public class Refs {
     public static String alumnos = "Alumnos";
     public static String usuarios = "Usuarios";
 
+    public static String clasesPropias = "Clases Propias";
+
+    public static String  claseCodigo = "clase Codigo";
+    public static String  claseNombre = "clase Nombre";
+    public static  String bdCantidadAlumnos = "cantidadAlumnos";
+
 
 
 }

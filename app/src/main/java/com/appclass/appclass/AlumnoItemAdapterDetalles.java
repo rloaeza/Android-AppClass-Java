@@ -9,12 +9,13 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.appclass.appclass.db.Alumno;
+import com.appclass.appclass.db.Usuario;
 
 import java.util.List;
 
-public class AlumnoItemAdapterDetalles extends ArrayAdapter<Alumno>{
+public class AlumnoItemAdapterDetalles extends ArrayAdapter<Usuario>{
 
-    public AlumnoItemAdapterDetalles(Context context, List<Alumno> objects) {
+    public AlumnoItemAdapterDetalles(Context context, List<Usuario> objects) {
         super(context, 0, objects);
 
 
@@ -36,7 +37,7 @@ public class AlumnoItemAdapterDetalles extends ArrayAdapter<Alumno>{
         TextView tvNombre = convertView.findViewById(R.id.tvNombre);
 
 
-        Alumno itemAlumno = getItem(position);
+        Usuario itemAlumno = getItem(position);
 
         tvNombre.setText(itemAlumno.getNombreCompleto());
 

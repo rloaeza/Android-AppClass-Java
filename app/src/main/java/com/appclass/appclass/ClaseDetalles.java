@@ -16,6 +16,8 @@ import android.widget.Spinner;
 
 
 import com.appclass.appclass.db.Alumno;
+import com.appclass.appclass.db.Refs;
+import com.appclass.appclass.db.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +41,7 @@ public class ClaseDetalles extends AppCompatActivity {
 
 
     private AlumnoItemAdapterDetalles listaAlumnosDetalles;
-    private List<Alumno> listaAlumnos;
+    private List<Usuario> listaAlumnos;
 
 
     private FirebaseDatabase firebaseDatabase ;
@@ -60,8 +63,8 @@ public class ClaseDetalles extends AppCompatActivity {
         ivBorrarClase = findViewById(R.id.ivBorrarClase);
         ivLimpiarClase = findViewById(R.id.ivLimpiarClase);
 
-        claseCodigo = getIntent().getStringExtra(AppClassReferencias.claseCodigo);
-        claseNombre = getIntent().getStringExtra(AppClassReferencias.claseNombre);
+        claseCodigo = getIntent().getStringExtra(Refs.claseCodigo);
+        claseNombre = getIntent().getStringExtra(Refs.claseNombre);
         bNombre.setText(claseNombre);
 
         listaAlumnosDetalles= new AlumnoItemAdapterDetalles(getApplicationContext(), new ArrayList<>());
@@ -80,18 +83,18 @@ public class ClaseDetalles extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaAlumnosDetalles.clear();
                 for(DataSnapshot item : dataSnapshot.getChildren()) {
-                    Alumno alumno= item.getValue(Alumno.class);
+                    Usuario alumno= item.getValue(Usuario.class);
 
                     listaAlumnosDetalles.add(alumno);
                 }
 
 
-                databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseActual.getCodigo()).addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(claseActual.getCodigo()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists()) {
                             claseActual.setCantidadAlumnos(listaAlumnosDetalles.getCount());
-                            databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseActual.getCodigo()).child(AppClassReferencias.bdCantidadAlumnos).setValue(
+                            databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(claseActual.getCodigo()).child(Refs.bdCantidadAlumnos).setValue(
                                     claseActual.getCantidadAlumnos()
                             );
 
@@ -119,7 +122,7 @@ public class ClaseDetalles extends AppCompatActivity {
                 listaAlumnos.clear();
 
                 for(DataSnapshot item : dataSnapshot.getChildren()) {
-                    Alumno alumno= item.getValue(Alumno.class);
+                    Usuario alumno= item.getValue(Usuario.class);
 
                     listaAlumnos.add(alumno);
                 }
@@ -142,7 +145,7 @@ public class ClaseDetalles extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference(AppClassReferencias.AppClass);
 
 
-        databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(claseCodigo).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 claseActual = dataSnapshot.getValue(Clase.class);
@@ -153,16 +156,17 @@ public class ClaseDetalles extends AppCompatActivity {
 
             }
         });
+
         databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Alumnos).addValueEventListener(postListenerAlumno);
 
 
-        databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases)
-                .child(claseCodigo).child(AppClassReferencias.Alumnos).addValueEventListener(postListenerClase);
+        databaseReference.child(Refs.clases)
+                .child(claseCodigo).child(Refs.alumnos).addValueEventListener(postListenerClase);
 
         bAgregar.setOnClickListener( e -> {
-            Alumno alumno = listaAlumnos.get(sAlumnos.getSelectedItemPosition());
+            Usuario alumno = listaAlumnos.get(sAlumnos.getSelectedItemPosition());
             databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo).
-            child(AppClassReferencias.Alumnos).child(alumno.getId()).setValue(alumno);
+            child(AppClassReferencias.Alumnos).child(alumno.getIdControl()).setValue(alumno);
         });
 
 
@@ -182,11 +186,11 @@ public class ClaseDetalles extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()) {
-                                    claseActual.setNombreClase(etNombreClaseNueva.getText().toString());
+                                    claseActual.setNombre(etNombreClaseNueva.getText().toString());
                                     databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseActual.getCodigo()).child(AppClassReferencias.bdNombreClase).setValue(
-                                            claseActual.getNombreClase()
+                                            claseActual.getNombre()
                                     );
-                                    bNombre.setText(claseActual.getNombreClase());
+                                    bNombre.setText(claseActual.getNombre());
                                 }
 
                             }
@@ -222,12 +226,13 @@ public class ClaseDetalles extends AppCompatActivity {
 
                         if(!msg.equals(getString(R.string.claseConfirmarCodigo)))
                             return;
-                        databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseActual.getCodigo()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(claseActual.getCodigo()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()) {
 
-                                    databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseActual.getCodigo()).removeValue();
+                                    databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(claseActual.getCodigo()).removeValue();
+                                    databaseReference.child(Refs.clases).child(claseActual.getCodigo()).removeValue();
                                     finish();
                                 }
 
@@ -260,12 +265,12 @@ public class ClaseDetalles extends AppCompatActivity {
 
                         if(!msg.equals(getString(R.string.claseConfirmarCodigo)))
                             return;
-                        databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseActual.getCodigo()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(claseActual.getCodigo()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()) {
 
-                                    databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseActual.getCodigo()).child(AppClassReferencias.Alumnos).removeValue();
+                                    databaseReference.child(Refs.clases).child(claseActual.getCodigo()).child(Refs.alumnos).removeValue();
 
                                 }
 

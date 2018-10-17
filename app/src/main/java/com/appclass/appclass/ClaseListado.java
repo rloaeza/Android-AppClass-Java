@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.appclass.appclass.db.Instructor;
+import com.appclass.appclass.db.Refs;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,23 +49,26 @@ public class ClaseListado extends AppCompatActivity {
         lvClases.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(this, ClaseAsistencia.class);
             Clase clase = lvClasesAdapter.getItem(i);
-            intent.putExtra(AppClassReferencias.claseCodigo, clase.getCodigo());
-            intent.putExtra(AppClassReferencias.claseNombre, clase.getNombreClase());
+            intent.putExtra(Refs.claseCodigo, clase.getCodigo());
+            intent.putExtra(Refs.claseNombre, clase.getNombre());
             startActivity(intent);
 
 
         });
 
-        btMacLocal = android.provider.Settings.Secure.getString(this.getContentResolver(), "bluetooth_address");
+
+        btMacLocal = Funciones.getBluetoothMAC(this);
+
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference(AppClassReferencias.AppClass);
-
-        correo = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
-        correoFix=correo.replace(".", "+");
+        databaseReference = firebaseDatabase.getReference(Refs.AppClass);
 
 
+        correo = Funciones.getCorreo();
+        correoFix= Funciones.getCorreoFix(correo);
 
 
+
+/*
         databaseReference.child(AppClassReferencias.Personas).child(correoFix).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -81,7 +85,7 @@ public class ClaseListado extends AppCompatActivity {
 
             }
         });
-
+*/
 
 
 
@@ -109,7 +113,8 @@ public class ClaseListado extends AppCompatActivity {
             }
         };
 
-        databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).addValueEventListener(postListener);
+        databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).addValueEventListener(postListener);
+        //databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).addValueEventListener(postListener);
 
 
 
@@ -138,15 +143,15 @@ public class ClaseListado extends AppCompatActivity {
                 builderClaseNueva.setView(etNombreClaseNueva);
                 builderClaseNueva.setPositiveButton(getString(R.string.aceptar), (dialog, which) -> {
                     String clase = etNombreClaseNueva.getText().toString();
-                    databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(clase).addListenerForSingleValueEvent(new ValueEventListener() {
+                    databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(clase).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if(!dataSnapshot.exists()) {
                                 String codigo = Clase.genCodigo(AppClassReferencias.tamCodigo);
-                                Clase itemClase = new Clase(etNombreClaseNueva.getText().toString(), "", codigo, true, 0);
-                                databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(codigo).setValue(
-                                        itemClase
-                                );
+                                Clase itemClase = new Clase(codigo, etNombreClaseNueva.getText().toString(), correo,  0);
+                                databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(codigo).setValue(itemClase);
+
+                                databaseReference.child(Refs.clases).child(codigo).setValue(itemClase);
                                 lvClasesAdapter.add(itemClase);
                             }
 

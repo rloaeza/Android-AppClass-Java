@@ -67,4 +67,10 @@ public class Usuario {
     public void setAsistio(boolean asistio) {
         this.asistio = asistio;
     }
+
+
+
+    public String getNombreCompleto() {
+        return getIdControl() + ": " + getApellidos() + ", " + getNombre();
+    }
 }

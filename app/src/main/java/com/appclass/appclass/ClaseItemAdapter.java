@@ -42,7 +42,7 @@ public class ClaseItemAdapter extends ArrayAdapter<Clase>{
         Clase itemClase = getItem(position);
 
 
-        tvNombreClase.setText( itemClase.getNombreClase() );
+        tvNombreClase.setText( itemClase.getNombre() );
         tvCantidadAlumnos.setText( convertView.getResources().getString(R.string.cantidadAlumnos).replace("#", itemClase.getCantidadAlumnos()+""));
         tvCodigo.setText(itemClase.getCodigo());
 
@@ -50,7 +50,7 @@ public class ClaseItemAdapter extends ArrayAdapter<Clase>{
         ivEditar.setOnClickListener(e->  {
             Intent intent = new Intent(this.getContext(), ClaseDetalles.class);
             intent.putExtra(AppClassReferencias.claseCodigo, itemClase.getCodigo());
-            intent.putExtra(AppClassReferencias.claseNombre, itemClase.getNombreClase());
+            intent.putExtra(AppClassReferencias.claseNombre, itemClase.getNombre());
             intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
             getContext().startActivity(intent);
 
