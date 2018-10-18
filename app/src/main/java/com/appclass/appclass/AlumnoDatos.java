@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.appclass.appclass.db.Alumno;
+import com.appclass.appclass.db.Refs;
+import com.appclass.appclass.db.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,12 +18,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Ref;
+
 public class AlumnoDatos extends AppCompatActivity {
     EditText etBT;
     EditText etId;
     EditText etNombre;
-    EditText etApaterno;
-    EditText etAmaterno;
+    EditText etApellidos;
+
     EditText etCorreo;
 
     Button bAceptar;
@@ -36,8 +40,8 @@ public class AlumnoDatos extends AppCompatActivity {
         etId = findViewById(R.id.etId);
         etBT = findViewById(R.id.etBT);
         etNombre = findViewById(R.id.etNombre);
-        etApaterno = findViewById(R.id.etApaterno);
-        etAmaterno = findViewById(R.id.etAmaterno);
+        etApellidos = findViewById(R.id.etApellidos);
+
         etCorreo = findViewById(R.id.etCorreo);
 
 
@@ -48,29 +52,26 @@ public class AlumnoDatos extends AppCompatActivity {
             String id = etId.getText().toString();
             String bt = etBT.getText().toString();
             String nombre = etNombre.getText().toString();
-            String aPaterno = etApaterno.getText().toString();
-            String aMaterno = etAmaterno.getText().toString();
+            String apellidos = etApellidos.getText().toString();
+
             String correoAlumno = etCorreo.getText().toString();
 
-            if(id.isEmpty()) {
+            if(!Funciones.verificarEditTexts(etId, etBT, etNombre, etApellidos, etCorreo)) {
                 Toast.makeText(this, getString(R.string.alumnoRegistroError), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            String correo = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
-            String correoFix=correo.replace(".", "+");
-
+            String correoFix=Funciones.getCorreoFix(correoAlumno);
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-            DatabaseReference databaseReference = firebaseDatabase.getReference(AppClassReferencias.AppClass);
-            databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Alumnos).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            DatabaseReference databaseReference = firebaseDatabase.getReference(Refs.AppClass);
+
+            databaseReference.child(Refs.usuarios).child(correoFix).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(!dataSnapshot.exists()) {
-                        Alumno alumno = new Alumno(id, nombre, aPaterno, aMaterno, bt, correoAlumno, "0");
+                        Usuario alumno = new Usuario(correoAlumno, nombre, apellidos, id, bt, false);
 
-                        databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Alumnos).child(id).setValue(
-                                alumno
-                        );
+                        databaseReference.child(Refs.usuarios).child(correoFix).setValue(alumno);
                         limpiarCampos();
                         Toast.makeText(AlumnoDatos.this, getString(R.string.alumnoRegistro), Toast.LENGTH_SHORT).show();
 
@@ -99,8 +100,8 @@ public class AlumnoDatos extends AppCompatActivity {
         etBT.setText("");
         etId.setText("");
         etNombre.setText("");
-        etApaterno.setText("");
-        etAmaterno.setText("");
+        etApellidos.setText("");
+
         etCorreo.setText("");
 
     }

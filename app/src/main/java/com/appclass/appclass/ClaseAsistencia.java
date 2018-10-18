@@ -87,16 +87,12 @@ public class ClaseAsistencia extends AppCompatActivity {
 
 
         ordenar =false;
-        correo = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
-        correoFix=correo.replace(".", "+");
+        correo = Funciones.getCorreo();
+        correoFix=Funciones.getCorreoFix(correo);
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReferenceClase = firebaseDatabase.getReference(Refs.AppClass);
-
-//        databaseReference = firebaseDatabase.getReference(Refs.AppClass);
-
-        //databaseReferenceClase = firebaseDatabase.getReference(Refs.AppClass).child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo);
 
 
 
@@ -294,7 +290,7 @@ public class ClaseAsistencia extends AppCompatActivity {
             }
         };
 
-        databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).orderByChild("apellidos").addValueEventListener(postListenerCargarListaAsistencia);
+        databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).orderByChild("asistio").addValueEventListener(postListenerCargarListaAsistencia);
 
 
 
@@ -338,12 +334,7 @@ public class ClaseAsistencia extends AppCompatActivity {
                         if(!alumno.isAsistio())
                           databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).child(alumno.getIdControl()).child(Refs.bdAsistio).setValue(true);
                     }
-                   /*
-                    if(!existeValor(bluetoothDevice.getAddress())) {
-                        items.add(bluetoothDevice.getAddress());
-                        arrayAdapter.notifyDataSetChanged();
-                    }
-*/
+
                 }
 
             }

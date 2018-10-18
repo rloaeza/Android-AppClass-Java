@@ -72,4 +72,6 @@
 
     <string name="claseDetalleBorrarAlumno">Escriba # para borrar a: $</string>
     <string name="confirmarCodigo">confirmar</string>
+    <string name="alumnoApellidos">Apellidos</string>
+    <string name="alumnoCerrar">Cerrar</string>
 </resources>
