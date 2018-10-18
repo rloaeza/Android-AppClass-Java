@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 
 import com.appclass.appclass.db.Alumno;
+import com.appclass.appclass.db.Refs;
+import com.appclass.appclass.db.Usuario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public class AlumnoItemAdapter extends ArrayAdapter<Alumno>{
+public class AlumnoItemAdapter extends ArrayAdapter<Usuario>{
 
     private String claseCodigo;
     private String fecha;
@@ -31,7 +33,7 @@ public class AlumnoItemAdapter extends ArrayAdapter<Alumno>{
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }
-    public AlumnoItemAdapter(Context context, List<Alumno> objects, String claseCodigo, DatabaseReference databaseReference, String correoFix) {
+    public AlumnoItemAdapter(Context context, List<Usuario> objects, String claseCodigo, DatabaseReference databaseReference, String correoFix) {
         super(context, 0, objects);
         this.claseCodigo = claseCodigo;
         this.databaseReference = databaseReference;
@@ -56,17 +58,15 @@ public class AlumnoItemAdapter extends ArrayAdapter<Alumno>{
         TextView tvId = convertView.findViewById(R.id.tvId);
 
 
-        Alumno itemAlumno = getItem(position);
+        Usuario itemAlumno = getItem(position);
 
-        rbAlumno.setText(itemAlumno.getNombreCompleto());
-        tvId.setText(itemAlumno.getId());
+        rbAlumno.setText(itemAlumno.getApellidos()+", "+itemAlumno.getNombre());
+        tvId.setText(itemAlumno.getIdControl());
 
-        rbAlumno.setChecked(itemAlumno.getAsistio().equals("1"));
+        rbAlumno.setChecked(itemAlumno.isAsistio());
 
         rbAlumno.setOnClickListener(e-> {
-            databaseReference.child(AppClassReferencias.Asistencias).child(fecha).child(itemAlumno.getId()).child(AppClassReferencias.bdAsistio).setValue(
-                    rbAlumno.isChecked()?"1":"0"
-            );
+            databaseReference.child(Refs.asistencia).child(claseCodigo+"+"+fecha).child(itemAlumno.getIdControl()).child(Refs.bdAsistio).setValue(             rbAlumno.isChecked()?true:false);
 
 
 

@@ -25,6 +25,8 @@ import android.widget.ListView;
 
 
 import com.appclass.appclass.db.Alumno;
+import com.appclass.appclass.db.Refs;
+import com.appclass.appclass.db.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,7 +51,7 @@ public class ClaseAsistencia extends AppCompatActivity {
     String claseCodigo;
     String claseNombre;
     ImageView ivBorrarLista;
-    ImageView ivOrdenar;
+
 
     AlumnoItemAdapter listaAlumnos;
 
@@ -62,7 +64,7 @@ public class ClaseAsistencia extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase ;
     private DatabaseReference databaseReferenceClase;
 
-    private List<Alumno> listaAlumnosClase;
+    private List<Usuario> listaAlumnosClase;
     private ValueEventListener postListenerCargarListaAsistencia;
     private boolean ordenar;
 
@@ -81,7 +83,7 @@ public class ClaseAsistencia extends AppCompatActivity {
         lvAlumnos = findViewById(R.id.lvAlumnos);
         bCrearLista = findViewById(R.id.bCrearLista);
         ivBorrarLista = findViewById(R.id.ivBorrarLista);
-        ivOrdenar = findViewById(R.id.ivOrdenar);
+
 
 
         ordenar =false;
@@ -90,16 +92,19 @@ public class ClaseAsistencia extends AppCompatActivity {
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-//        databaseReference = firebaseDatabase.getReference(AppClassReferencias.AppClass);
+        databaseReferenceClase = firebaseDatabase.getReference(Refs.AppClass);
 
-        databaseReferenceClase = firebaseDatabase.getReference(AppClassReferencias.AppClass).child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo);
+//        databaseReference = firebaseDatabase.getReference(Refs.AppClass);
 
+        //databaseReferenceClase = firebaseDatabase.getReference(Refs.AppClass).child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).child(claseCodigo);
 
 
 
         fechaLista = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         fechaListaAnterior = "";
         bFecha.setText(fecha2Text());
+
+
 
         listaAlumnos= new AlumnoItemAdapter(getApplicationContext(), new ArrayList<>(), claseCodigo, databaseReferenceClase, correoFix);
 
@@ -130,17 +135,12 @@ public class ClaseAsistencia extends AppCompatActivity {
 
         bCrearLista.setOnClickListener(e-> {
 
-
-
-
-            databaseReferenceClase.child(AppClassReferencias.Asistencias).child(fechaLista).addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseReferenceClase.child(claseCodigo+"+"+fechaLista).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for(Alumno alumno : listaAlumnosClase) {
-                        alumno.setAsistio("0");
-                        //listaAlumnos.add(alumno);
-
-                        databaseReferenceClase.child(AppClassReferencias.Asistencias).child(fechaLista).child(alumno.getId()).setValue(alumno);
+                    for(Usuario alumno : listaAlumnosClase) {
+                        alumno.setAsistio(false);
+                        databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).child(alumno.getIdControl()).setValue(alumno);
                     }
                     bCrearLista.setVisibility(View.INVISIBLE);
                     bBuscarBT.setVisibility(View.VISIBLE);
@@ -159,13 +159,12 @@ public class ClaseAsistencia extends AppCompatActivity {
 
 
         listaAlumnosClase = new ArrayList<>();
-
         ValueEventListener postListenerCargarAlumno = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaAlumnosClase.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Alumno alumno = item.getValue(Alumno.class);
+                    Usuario alumno = item.getValue(Usuario.class);
                     listaAlumnosClase.add(alumno);
                 }
 
@@ -175,24 +174,11 @@ public class ClaseAsistencia extends AppCompatActivity {
 
             }
         };
-        databaseReferenceClase.child(AppClassReferencias.Alumnos).addValueEventListener(postListenerCargarAlumno);
+        databaseReferenceClase.child(Refs.clases).child(claseCodigo).child(Refs.alumnos).addValueEventListener(postListenerCargarAlumno);
 
 
 
-        ivOrdenar.setOnClickListener(e -> {
 
-
-
-            if( ordenar ){
-               ivOrdenar.setBackgroundResource(R.drawable.ordenadono);
-           }
-           else {
-               ivOrdenar.setBackgroundResource(R.drawable.ordenadosi);
-           }
-           ordenar = !ordenar;
-            cargarLista(ordenar);
-
-        });
 
         cargarLista(ordenar);
 
@@ -247,13 +233,11 @@ public class ClaseAsistencia extends AppCompatActivity {
 
                         if(!msg.equals(getString(R.string.claseConfirmarCodigo)))
                             return;
-                        databaseReferenceClase.child(AppClassReferencias.Asistencias).child(fechaLista).addListenerForSingleValueEvent(new ValueEventListener() {
+                        databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()) {
-
-                                    databaseReferenceClase.child(AppClassReferencias.Asistencias).child(fechaLista).removeValue();
-
+                                    databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).removeValue();
                                 }
 
                             }
@@ -277,11 +261,9 @@ public class ClaseAsistencia extends AppCompatActivity {
     private void cargarLista(boolean reOrdenar) {
 
         listaAlumnos.setFecha(fechaLista);
-        if(!fechaListaAnterior.isEmpty())
-            databaseReferenceClase.child(AppClassReferencias.Asistencias).child(fechaListaAnterior).removeEventListener(postListenerCargarListaAsistencia);
 
-        if( postListenerCargarListaAsistencia != null)
-            databaseReferenceClase.child(AppClassReferencias.Asistencias).child(fechaListaAnterior).removeEventListener(postListenerCargarListaAsistencia);
+
+
         postListenerCargarListaAsistencia = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -289,7 +271,7 @@ public class ClaseAsistencia extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
 
                     for (DataSnapshot item : dataSnapshot.getChildren()) {
-                        Alumno alumno = item.getValue(Alumno.class);
+                        Usuario alumno = item.getValue(Usuario.class);
                         listaAlumnos.add(alumno);
                     }
 
@@ -312,10 +294,7 @@ public class ClaseAsistencia extends AppCompatActivity {
             }
         };
 
-        if(ordenar)
-            databaseReferenceClase.child(AppClassReferencias.Asistencias).child(fechaLista).orderByChild("asistio").addValueEventListener(postListenerCargarListaAsistencia);
-        else
-            databaseReferenceClase.child(AppClassReferencias.Asistencias).child(fechaLista).addValueEventListener(postListenerCargarListaAsistencia);
+        databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).orderByChild("apellidos").addValueEventListener(postListenerCargarListaAsistencia);
 
 
 
@@ -354,12 +333,10 @@ public class ClaseAsistencia extends AppCompatActivity {
                     if(bluetoothDevice.getName()!=null)
                         Log.e(AppClassReferencias.TAG_Debug, bluetoothDevice.getAddress()+"->"+bluetoothDevice.getName());
 
-                    Alumno alumno=existeBT(bluetoothDevice.getAddress());
+                    Usuario alumno=existeBT(bluetoothDevice.getAddress());
                     if( alumno !=null) {
-                        if(alumno.getAsistio().equals("0"))
-                          databaseReferenceClase.child(AppClassReferencias.Asistencias).child(fechaLista).child(alumno.getId()).child(AppClassReferencias.bdAsistio).setValue(
-                                "1"
-                        );
+                        if(!alumno.isAsistio())
+                          databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).child(alumno.getIdControl()).child(Refs.bdAsistio).setValue(true);
                     }
                    /*
                     if(!existeValor(bluetoothDevice.getAddress())) {
@@ -373,9 +350,9 @@ public class ClaseAsistencia extends AppCompatActivity {
         }
     };
 
-    private Alumno existeBT(String macBT) {
+    private Usuario existeBT(String macBT) {
         for(int indice=0; indice<listaAlumnos.getCount(); indice++) {
-            if( listaAlumnos.getItem(indice).getBtMAC().equalsIgnoreCase(macBT) )
+            if( listaAlumnos.getItem(indice).getMacBT().equalsIgnoreCase(macBT) )
                 return listaAlumnos.getItem(indice);
 
         }

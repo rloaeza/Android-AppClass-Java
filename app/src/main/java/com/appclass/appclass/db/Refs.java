@@ -9,6 +9,8 @@ public class Refs {
     public static String clases = "Clases";
     public static String alumnos = "Alumnos";
     public static String usuarios = "Usuarios";
+    public static String asistencia = "Asistencias";
+
 
     public static String clasesPropias = "Clases Propias";
 
@@ -17,6 +19,8 @@ public class Refs {
     public static  String bdCantidadAlumnos = "cantidadAlumnos";
     public static  String bdUsuarioIdControl = "idControl";
     public static  String bdClaseNombre = "nombre";
+    public static  String bdAsistio = "asistio";
+
 
 
 
