@@ -11,6 +11,9 @@
         android:id="@+id/menuAgregarAlumno"
         android:title="@string/agregarAlumno" />
     <item
+        android:id="@+id/menuBTLog"
+        android:title="Bluetooth Log" />
+    <item
         android:id="@+id/menuCerrarSesion"
         android:title="@string/cerrarSesion" />
 </menu>

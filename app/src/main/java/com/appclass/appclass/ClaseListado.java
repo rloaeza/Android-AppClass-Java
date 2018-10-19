@@ -136,6 +136,11 @@ public class ClaseListado extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case R.id.menuBTLog:
+                startActivity(new Intent(this, Bluetooth.class));
+                break;
+
+
             case R.id.menuAgregarClase:
 
                 AlertDialog.Builder builderClaseNueva = new AlertDialog.Builder(this);

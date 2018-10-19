@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Bluetooth"  android:screenOrientation="portrait"></activity>
         <activity android:name=".Configuracion"  android:screenOrientation="portrait"></activity>
         <activity android:name=".ClaseDetalles"  android:screenOrientation="portrait"></activity>
         <activity android:name=".ClaseAsistencia"  android:screenOrientation="portrait"></activity>
