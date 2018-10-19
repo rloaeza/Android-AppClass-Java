@@ -1,13 +1,13 @@
 package com.appclass.appclass;
 //http://www.hermosaprogramacion.com/2014/10/android-listas-adaptadores/
 public class Clase {
-    private static String codigo;
+    private String codigo;
     private String nombre;
     private String correo;
     private int cantidadAlumnos;
 
     public static String genCodigo(int longitud) {
-        codigo="";
+        String codigo="";
         char c;
         while(codigo.length()<longitud) {
             if(Math.random()<0.5) {
