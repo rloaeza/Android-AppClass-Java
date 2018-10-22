@@ -1,11 +1,23 @@
 package com.appclass.appclass;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.appclass.appclass.db.Alumno;
@@ -19,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Ref;
+import java.util.ArrayList;
 
 public class AlumnoDatos extends AppCompatActivity {
     EditText etBT;
@@ -27,10 +40,15 @@ public class AlumnoDatos extends AppCompatActivity {
     EditText etApellidos;
 
     EditText etCorreo;
+    Spinner sBT;
+    ImageView ivBuscarBT;
 
     Button bAceptar;
     Button bCancelar;
 
+
+    private ArrayList<String> listaBT;
+    private ArrayAdapter<String> listAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +65,10 @@ public class AlumnoDatos extends AppCompatActivity {
 
         bAceptar = findViewById(R.id.bAceptar);
         bCancelar = findViewById(R.id.bCancelar);
+
+        sBT  = findViewById(R.id.sBT);
+        ivBuscarBT = findViewById(R.id.ivBuscarBT);
+
 
         bAceptar.setOnClickListener( e -> {
             String id = etId.getText().toString();
@@ -94,6 +116,58 @@ public class AlumnoDatos extends AppCompatActivity {
 
         bCancelar.setOnClickListener( e-> finish() );
 
+
+
+
+        listaBT = new ArrayList<>();
+
+
+        listAdapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listaBT);
+        sBT.setAdapter(listAdapter);
+
+
+        BTAdapter = BluetoothAdapter.getDefaultAdapter();
+        ivBuscarBT.setOnClickListener(e-> {
+            listaBT.clear();
+            listAdapter.notifyDataSetChanged();
+
+            if (!BTAdapter.isEnabled()) {
+                Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBT, REQUEST_BLUETOOTH);
+            }
+            else {
+
+                boolean b = BTAdapter.startDiscovery();
+                if(b) {
+                    ivBuscarBT.setVisibility(View.INVISIBLE);
+                    etBT.setText("");
+                    new Handler().postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            ivBuscarBT.setVisibility(View.VISIBLE);
+                            BTAdapter.cancelDiscovery();
+                        }
+                    }, 15000);
+                }
+
+                IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+                registerReceiver(broadcastReceiver,filter);
+            }
+        });
+        sBT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                etBT.setText(listaBT.get(position).substring(0, 17));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
     private void limpiarCampos() {
@@ -105,5 +179,36 @@ public class AlumnoDatos extends AppCompatActivity {
         etCorreo.setText("");
 
     }
+
+
+    public static int REQUEST_BLUETOOTH = 1;
+
+    BluetoothAdapter BTAdapter;
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getAction();
+
+            if(BluetoothDevice.ACTION_FOUND.equals(action)) {
+                BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                if(bluetoothDevice!=null) {
+
+                    if(bluetoothDevice.getName()!=null) {
+                        String btName = bluetoothDevice.getName();
+                        btName = btName.substring(0, btName.length()>10?10:btName.length());
+
+                        listaBT.add(bluetoothDevice.getAddress() +" ["+ btName+"]");
+                    }
+                    else
+                        listaBT.add(bluetoothDevice.getAddress());
+
+
+                    listAdapter.notifyDataSetChanged();
+
+                }
+
+            }
+        }
+    };
 
 }

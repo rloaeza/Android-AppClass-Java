@@ -1,5 +1,6 @@
 package com.appclass.appclass;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -169,6 +170,20 @@ public class ClaseDetalles extends AppCompatActivity {
             Usuario alumno = listaAlumnos.get(sAlumnos.getSelectedItemPosition());
             databaseReference.child(Refs.clases).child(claseCodigo).child(Refs.alumnos).child(Funciones.getCorreoFix(alumno.getCorreo())).setValue(alumno);
             databaseReference.child(Refs.usuarios).child(Funciones.getCorreoFix(alumno.getCorreo())).child(Refs.clases).child(claseActual.getCodigo()).setValue(claseActual);
+        });
+
+
+
+        lvAlumnos.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(this, AlumnoDetalle.class);
+            intent.putExtra(Refs.claseCodigo, claseActual.getCodigo());
+            intent.putExtra(Refs.claseNombre, claseActual.getNombre());
+            String nombreCompleto = listaAlumnosDetalles.getItem(position).getApellidos()+ ", "+listaAlumnosDetalles.getItem(position).getNombre();
+            intent.putExtra(Refs.usuarioNombre, nombreCompleto);
+            intent.putExtra(Refs.usuarioCodigo, listaAlumnosDetalles.getItem(position).getIdControl());
+            startActivity(intent);
+
+
         });
 
 

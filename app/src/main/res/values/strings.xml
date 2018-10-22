@@ -74,4 +74,7 @@
     <string name="confirmarCodigo">confirmar</string>
     <string name="alumnoApellidos">Apellidos</string>
     <string name="alumnoCerrar">Cerrar</string>
+    <string name="alumnoAsistencias">Asistencias</string>
+    <string name="alumnoFaltas">Faltas</string>
+    <string name="alumnoDetallesAsistencia">Detalle de asistencias</string>
 </resources>
