@@ -115,7 +115,7 @@ public class ClaseListado extends AppCompatActivity {
             }
         };
 
-        databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).addValueEventListener(postListener);
+        databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).orderByChild(Refs.bdClaseNombre).addValueEventListener(postListener);
         //databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).addValueEventListener(postListener);
 
 

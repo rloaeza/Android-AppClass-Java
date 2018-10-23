@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rlFondo"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,10 +21,10 @@
 
     <TextView
         android:id="@+id/tvCantidadAlumnos"
-        android:layout_width="184dp"
+        android:layout_width="228dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvNombreClase"
         android:layout_below="@+id/tvNombreClase"
+        android:layout_alignStart="@+id/tvNombreClase"
         android:text="TextView"
         android:textColor="@color/colorTexto2" />
 
@@ -31,8 +32,8 @@
         android:id="@+id/ivEditar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/tvNombreClase"
+        android:layout_alignParentEnd="true"
         android:layout_marginEnd="15dp"
         android:background="@drawable/configuracion" />
 
@@ -40,8 +41,10 @@
         android:id="@+id/tvCodigo"
         android:layout_width="109dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tvNombreClase"
         android:layout_below="@+id/tvNombreClase"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="23dp"
         android:text="TextView"
         android:textAlignment="textEnd"
         android:textColor="@color/colorTexto2" />

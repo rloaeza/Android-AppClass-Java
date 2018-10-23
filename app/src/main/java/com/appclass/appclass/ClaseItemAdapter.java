@@ -2,11 +2,13 @@ package com.appclass.appclass;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -38,6 +40,13 @@ public class ClaseItemAdapter extends ArrayAdapter<Clase>{
         TextView tvCantidadAlumnos = convertView.findViewById(R.id.tvCantidadAlumnos);
         TextView tvCodigo = convertView.findViewById(R.id.tvCodigo);
         ImageView ivEditar = convertView.findViewById(R.id.ivEditar);
+        RelativeLayout rlFondo = convertView.findViewById(R.id.rlFondo);
+
+
+        if( position%2 == 0)
+        {
+            rlFondo.setBackgroundResource(R.color.colorFondoListaClase);
+        }
 
         Clase itemClase = getItem(position);
 

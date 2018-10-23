@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -57,6 +58,12 @@ public class AlumnoItemAdapter extends ArrayAdapter<Usuario>{
         CheckBox rbAlumno = convertView.findViewById(R.id.cbAlumno);
         TextView tvId = convertView.findViewById(R.id.tvId);
 
+        RelativeLayout rlFondo = convertView.findViewById(R.id.rlFondo);
+
+        if( position%2 == 0)
+        {
+            rlFondo.setBackgroundResource(R.color.colorFondoListaClase);
+        }
 
         Usuario itemAlumno = getItem(position);
 
