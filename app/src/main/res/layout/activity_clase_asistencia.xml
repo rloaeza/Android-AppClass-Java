@@ -9,12 +9,12 @@
         android:id="@+id/lvAlumnos"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/bBuscarBT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bFecha" />
+        app:layout_constraintTop_toBottomOf="@+id/sFecha" />
 
     <Button
         android:id="@+id/bBuscarBT"
@@ -43,40 +43,51 @@
         app:layout_constraintStart_toEndOf="@+id/bBuscarBT" />
 
     <Button
-        android:id="@+id/bFecha"
-        style="@style/Widget.AppCompat.Button.Borderless"
+        android:id="@+id/bCrearLista"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/ivBorrarLista"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/bCrearLista"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/claseAsistenciaCrearLista"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bFecha" />
+        app:layout_constraintTop_toBottomOf="@+id/sFecha" />
 
     <ImageView
         android:id="@+id/ivBorrarLista"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/bFecha"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sFecha"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bFecha"
-        app:layout_constraintVertical_bias="0.562"
+        app:layout_constraintTop_toTopOf="@+id/sFecha"
         app:srcCompat="@drawable/borrarclase" />
+
+    <ImageView
+        android:id="@+id/ivAgregarFecha"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sFecha"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sFecha"
+        app:srcCompat="@drawable/seleccionafecha" />
+
+    <Spinner
+        android:id="@+id/sFecha"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/ivBorrarLista"
+        app:layout_constraintStart_toEndOf="@+id/ivAgregarFecha"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

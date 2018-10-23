@@ -1,6 +1,7 @@
 package com.appclass.appclass;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +65,10 @@ public class AlumnoItemAdapter extends ArrayAdapter<Usuario>{
         {
             rlFondo.setBackgroundResource(R.color.colorFondoListaClase);
         }
+        else {
+            rlFondo.setBackgroundColor(Color.TRANSPARENT);
+        }
+
 
         Usuario itemAlumno = getItem(position);
 

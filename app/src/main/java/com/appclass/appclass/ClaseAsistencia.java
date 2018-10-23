@@ -17,11 +17,13 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 
 import com.appclass.appclass.db.Alumno;
@@ -43,7 +45,7 @@ import java.util.List;
 
 public class ClaseAsistencia extends AppCompatActivity {
 
-    Button bFecha;
+
     Button bBuscarBT;
     Button bCrearLista;
     Button bTerminar;
@@ -52,6 +54,10 @@ public class ClaseAsistencia extends AppCompatActivity {
     String claseNombre;
     ImageView ivBorrarLista;
 
+
+
+    ImageView ivAgregarFecha;
+    Spinner sFecha;
 
     AlumnoItemAdapter listaAlumnos;
 
@@ -68,6 +74,11 @@ public class ClaseAsistencia extends AppCompatActivity {
     private ValueEventListener postListenerCargarListaAsistencia;
     private boolean ordenar;
 
+
+    private List<String> fechas;
+    ArrayAdapter<String> adapterSpinner;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,14 +88,19 @@ public class ClaseAsistencia extends AppCompatActivity {
         claseNombre = getIntent().getStringExtra(AppClassReferencias.claseNombre);
 
         setTitle(claseNombre);
-        bFecha = findViewById(R.id.bFecha);
+        sFecha = findViewById(R.id.sFecha);
         bBuscarBT = findViewById(R.id.bBuscarBT);
         bTerminar = findViewById(R.id.bTerminar);
         lvAlumnos = findViewById(R.id.lvAlumnos);
         bCrearLista = findViewById(R.id.bCrearLista);
         ivBorrarLista = findViewById(R.id.ivBorrarLista);
+        ivAgregarFecha = findViewById(R.id.ivAgregarFecha);
 
 
+        fechas = new ArrayList<>();
+        adapterSpinner = new ArrayAdapter(this, android.R.layout.simple_spinner_item, fechas);
+
+        sFecha.setAdapter(adapterSpinner);
 
         ordenar =false;
         correo = Funciones.getCorreo();
@@ -98,7 +114,11 @@ public class ClaseAsistencia extends AppCompatActivity {
 
         fechaLista = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         fechaListaAnterior = "";
-        bFecha.setText(fecha2Text());
+
+
+        fechas.add(fecha2Text(fechaLista));
+        adapterSpinner.notifyDataSetChanged();
+
 
 
 
@@ -106,18 +126,39 @@ public class ClaseAsistencia extends AppCompatActivity {
 
 
 
-        bFecha.setOnClickListener(e->{
+
+        ivAgregarFecha.setOnClickListener(view -> {
             DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                     fechaListaAnterior = fechaLista;
                     fechaLista = year + "-" + (month<9?"0":"")+(month+1) + "-" + (day<10?"0":"")+day;
-                    bFecha.setText(fecha2Text());
+                    fechas.add(fecha2Text(fechaLista));
+                    adapterSpinner.notifyDataSetChanged();
+                    sFecha.setSelection(fechas.size()-1);
                     cargarLista(ordenar);
                 }
             });
             newFragment.show(getSupportFragmentManager(), "datePicker");
-        } );
+        });
+
+
+        sFecha.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                fechaListaAnterior = fechaLista;
+                fechaLista = text2Fecha(fechas.get(i));
+
+                cargarLista(true);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
 
 
         lvAlumnos.setAdapter(listaAlumnos);
@@ -125,6 +166,7 @@ public class ClaseAsistencia extends AppCompatActivity {
 
 
         bTerminar.setOnClickListener(e -> finish() );
+
 
 
 
@@ -252,6 +294,28 @@ public class ClaseAsistencia extends AppCompatActivity {
 
         });
 
+        cargarClasesPasadas();
+    }
+
+    private void cargarClasesPasadas() {
+        databaseReferenceClase.child(Refs.asistencia).orderByKey().startAt(claseCodigo).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot data : dataSnapshot.getChildren()) {
+                    if(data.getKey().startsWith(claseCodigo)) {
+                        fechas.add(fecha2Text(data.getKey().substring(Refs.tamCodigo+1) ));
+                    }
+                    Log.e(Refs.TAG, claseCodigo+": "+data.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void cargarLista(boolean reOrdenar) {
@@ -297,15 +361,21 @@ public class ClaseAsistencia extends AppCompatActivity {
 
     }
 
-    private String fecha2Text() {
+    private String fecha2Text(String fechaStr) {
         Date fecha = Calendar.getInstance().getTime();
         try {
-            fecha = new SimpleDateFormat("yyyy-MM-dd").parse(fechaLista);
+            fecha = new SimpleDateFormat("yyyy-MM-dd").parse(fechaStr);
         } catch (ParseException e1) { }
         return new SimpleDateFormat("dd / MMM / yyyy").format(fecha);
     }
 
-
+    private String text2Fecha(String text) {
+        Date fecha = Calendar.getInstance().getTime();
+        try {
+            fecha = new SimpleDateFormat("dd / MMM / yyyy").parse(text);
+        } catch (ParseException e1) { }
+        return new SimpleDateFormat("yyyy-MM-dd").format(fecha);
+    }
 
 
 

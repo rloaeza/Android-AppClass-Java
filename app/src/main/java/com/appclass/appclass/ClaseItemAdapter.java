@@ -47,6 +47,9 @@ public class ClaseItemAdapter extends ArrayAdapter<Clase>{
         {
             rlFondo.setBackgroundResource(R.color.colorFondoListaClase);
         }
+        else{
+            rlFondo.setBackgroundColor(Color.TRANSPARENT);
+        }
 
         Clase itemClase = getItem(position);
 
@@ -54,6 +57,7 @@ public class ClaseItemAdapter extends ArrayAdapter<Clase>{
         tvNombreClase.setText( itemClase.getNombre() );
         tvCantidadAlumnos.setText( convertView.getResources().getString(R.string.cantidadAlumnos).replace("#", itemClase.getCantidadAlumnos()+""));
         tvCodigo.setText(itemClase.getCodigo());
+
 
 
         ivEditar.setOnClickListener(e->  {

@@ -27,5 +27,6 @@ public class Refs {
 
 
 
+    public static int tamCodigo = 10;
 
 }
