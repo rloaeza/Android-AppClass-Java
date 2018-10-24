@@ -272,6 +272,8 @@ public class ClaseAsistencia extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()) {
                                     databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).removeValue();
+                                    fechas.clear();
+                                    agregarFecha(fechaLista);
                                 }
 
                             }
