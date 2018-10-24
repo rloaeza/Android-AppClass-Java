@@ -103,7 +103,7 @@ public class ClaseListado extends AppCompatActivity {
                     Clase clase = item.getValue(Clase.class);
 
                     lvClasesAdapter.add(clase);
-                    Log.e(Refs.TAG, clase.getCodigo());
+
                 }
 
 
@@ -116,7 +116,7 @@ public class ClaseListado extends AppCompatActivity {
         };
 
         databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).orderByChild(Refs.bdClaseNombre).addValueEventListener(postListener);
-        //databaseReference.child(AppClassReferencias.Personas).child(correoFix).child(AppClassReferencias.Clases).addValueEventListener(postListener);
+
 
 
 

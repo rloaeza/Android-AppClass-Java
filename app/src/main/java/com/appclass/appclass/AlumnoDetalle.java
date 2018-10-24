@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.appclass.appclass.db.Refs;
 import com.appclass.appclass.db.Usuario;
 import com.google.firebase.database.DataSnapshot;
@@ -20,21 +18,17 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+
 
 public class AlumnoDetalle extends AppCompatActivity {
-
     private GraphView graph;
     private TextView tvNombre;
     private TextView tvClase;
     private Button bAceptar;
-
     String claseCodigo;
     String claseNombre;
-
     String usuarioNombre;
     String usuarioIdCodigo;
-
     private FirebaseDatabase firebaseDatabase ;
     private DatabaseReference databaseReference;
     private int asistencias;
@@ -78,7 +72,7 @@ public class AlumnoDetalle extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.e(Refs.TAG, "Codigo: "+claseCodigo);
+
 
                 if(dataSnapshot.exists()) {
                     asistencias=0;
@@ -86,7 +80,7 @@ public class AlumnoDetalle extends AppCompatActivity {
                     clasesTotales = 0;
                     for(DataSnapshot data : dataSnapshot.getChildren()) {
 
-                        Log.e(Refs.TAG, data.getKey());
+
                         if(!data.getKey().startsWith(claseCodigo))
                             continue;
 
@@ -96,7 +90,7 @@ public class AlumnoDetalle extends AppCompatActivity {
                             Usuario usuario = d.getValue(Usuario.class);
                             if( !usuario.getIdControl().equals(usuarioIdCodigo) )
                                 continue;
-                            Log.e(Refs.TAG, d.toString());
+
                             if(!usuario.isAsistio()) {
                                 faltas++;
                             }

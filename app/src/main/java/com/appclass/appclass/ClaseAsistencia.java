@@ -116,7 +116,6 @@ public class ClaseAsistencia extends AppCompatActivity {
         fechaListaAnterior = "";
 
 
-        fechas.add(fecha2Text(fechaLista));
         adapterSpinner.notifyDataSetChanged();
 
 
@@ -131,11 +130,8 @@ public class ClaseAsistencia extends AppCompatActivity {
             DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    fechaListaAnterior = fechaLista;
-                    fechaLista = year + "-" + (month<9?"0":"")+(month+1) + "-" + (day<10?"0":"")+day;
-                    fechas.add(fecha2Text(fechaLista));
-                    adapterSpinner.notifyDataSetChanged();
-                    sFecha.setSelection(fechas.size()-1);
+                    String posibleFecha =  year + "-" + (month<9?"0":"")+(month+1) + "-" + (day<10?"0":"")+day;
+                    agregarFecha(posibleFecha);
                     cargarLista(ordenar);
                 }
             });
@@ -247,7 +243,7 @@ public class ClaseAsistencia extends AppCompatActivity {
                         }
                     }, 15000);
                 }
-                Log.e(AppClassReferencias.TAG_Debug, "Iniciando BT");
+
                 IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
                 registerReceiver(broadcastReceiver,filter);
             }
@@ -291,13 +287,27 @@ public class ClaseAsistencia extends AppCompatActivity {
 
             builderClaseNueva.setNegativeButton(getString(R.string.cancelar), (dialog, which) -> dialog.cancel());
             builderClaseNueva.show();
-
         });
 
+
+        agregarFecha(fechaLista);
+    }
+
+    private void agregarFecha(String posibleFecha) {
+        for(String f: fechas) {
+            if(text2Fecha(f).equals(posibleFecha) )
+                return;
+        }
         cargarClasesPasadas();
+        fechaListaAnterior = fechaLista;
+        fechaLista = posibleFecha;
+        fechas.add(fecha2Text(posibleFecha));
+        adapterSpinner.notifyDataSetChanged();
+        sFecha.setSelection(fechas.size()-1);
     }
 
     private void cargarClasesPasadas() {
+        fechas.clear();
         databaseReferenceClase.child(Refs.asistencia).orderByKey().startAt(claseCodigo).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -306,8 +316,8 @@ public class ClaseAsistencia extends AppCompatActivity {
                     if(data.getKey().startsWith(claseCodigo)) {
                         fechas.add(fecha2Text(data.getKey().substring(Refs.tamCodigo+1) ));
                     }
-                    Log.e(Refs.TAG, claseCodigo+": "+data.getKey());
                 }
+                adapterSpinner.notifyDataSetChanged();
             }
 
             @Override
@@ -354,7 +364,8 @@ public class ClaseAsistencia extends AppCompatActivity {
             }
         };
 
-        databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).orderByChild("asistio").addValueEventListener(postListenerCargarListaAsistencia);
+        //databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).orderByChild("asistio").addValueEventListener(postListenerCargarListaAsistencia);
+        databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).addValueEventListener(postListenerCargarListaAsistencia);
 
 
 
@@ -391,13 +402,11 @@ public class ClaseAsistencia extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
 
             String action = intent.getAction();
-            // Log.e("BT", action);
+
             if(BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if(bluetoothDevice!=null) {
 
-                    if(bluetoothDevice.getName()!=null)
-                        Log.e(AppClassReferencias.TAG_Debug, bluetoothDevice.getAddress()+"->"+bluetoothDevice.getName());
 
                     Usuario alumno=existeBT(bluetoothDevice.getAddress());
                     if( alumno !=null) {
@@ -419,9 +428,4 @@ public class ClaseAsistencia extends AppCompatActivity {
         }
         return null;
     }
-
-
-
-
-
 }
