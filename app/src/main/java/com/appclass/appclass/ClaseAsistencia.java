@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,18 +23,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-
-
-import com.appclass.appclass.db.Alumno;
 import com.appclass.appclass.db.Refs;
 import com.appclass.appclass.db.Usuario;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -208,7 +202,7 @@ public class ClaseAsistencia extends AppCompatActivity {
 
             }
         };
-        databaseReferenceClase.child(Refs.clases).child(claseCodigo).child(Refs.alumnos).addValueEventListener(postListenerCargarAlumno);
+        databaseReferenceClase.child(Refs.clases).child(claseCodigo).child(Refs.alumnos).addListenerForSingleValueEvent(postListenerCargarAlumno);
 
 
 
@@ -334,6 +328,9 @@ public class ClaseAsistencia extends AppCompatActivity {
 
         listaAlumnos.setFecha(fechaLista);
 
+        if(postListenerCargarListaAsistencia!=null)
+            databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaListaAnterior).removeEventListener(postListenerCargarListaAsistencia);
+
 
 
         postListenerCargarListaAsistencia = new ValueEventListener() {
@@ -346,6 +343,13 @@ public class ClaseAsistencia extends AppCompatActivity {
                         Usuario alumno = item.getValue(Usuario.class);
                         listaAlumnos.add(alumno);
                     }
+                    if(listaAlumnosClase.size()!=listaAlumnos.getCount())
+                        for(Usuario alumno: listaAlumnosClase) {
+                            if(!existeAlumno(alumno)) {
+                                alumno.setAsistio(false);
+                                databaseReferenceClase.child(Refs.asistencia).child(claseCodigo+"+"+fechaLista).child(alumno.getIdControl()).setValue(alumno);
+                            }
+                        }
 
                     bCrearLista.setVisibility(View.INVISIBLE);
                     ivBorrarLista.setVisibility(View.VISIBLE);
@@ -374,6 +378,14 @@ public class ClaseAsistencia extends AppCompatActivity {
 
     }
 
+    private boolean existeAlumno(Usuario alumno) {
+        for(int i=0; i<listaAlumnos.getCount(); i++)
+            if(alumno.getCorreo().equals(listaAlumnos.getItem(i).getCorreo()))
+                return true;
+
+        return false;
+
+    }
     private String fecha2Text(String fechaStr) {
         Date fecha = Calendar.getInstance().getTime();
         try {

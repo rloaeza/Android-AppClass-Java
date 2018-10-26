@@ -79,10 +79,6 @@ public class AlumnoItemAdapter extends ArrayAdapter<Usuario>{
 
         rbAlumno.setOnClickListener(e-> {
             databaseReference.child(Refs.asistencia).child(claseCodigo+"+"+fecha).child(itemAlumno.getIdControl()).child(Refs.bdAsistio).setValue(             rbAlumno.isChecked()?true:false);
-
-
-
-
         });
 
         return convertView;
