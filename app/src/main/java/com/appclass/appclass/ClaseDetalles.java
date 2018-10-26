@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -208,6 +209,8 @@ public class ClaseDetalles extends AppCompatActivity {
 
                 databaseReference.child(Refs.clases).child(claseActual.getCodigo()).child(Refs.alumnos).child(Funciones.getCorreoFix(alumno.getCorreo())).removeValue();
                 databaseReference.child(Refs.usuarios).child(Funciones.getCorreoFix(alumno.getCorreo())).child(Refs.clases).child(claseActual.getCodigo()).removeValue();
+                borrarAlumnoClase(claseActual.getCodigo(), alumno.getIdControl());
+
 
             });
 
@@ -279,6 +282,7 @@ public class ClaseDetalles extends AppCompatActivity {
                                     eliminarAlumnosClase(claseActual, listaAlumnos);
                                     databaseReference.child(Refs.usuarios).child(correoFix).child(Refs.clasesPropias).child(claseActual.getCodigo()).removeValue();
                                     databaseReference.child(Refs.clases).child(claseActual.getCodigo()).removeValue();
+                                    borrarAsistenciaClase(claseActual.getCodigo());
                                     finish();
                                 }
 
@@ -339,7 +343,54 @@ public class ClaseDetalles extends AppCompatActivity {
 
 
     }
+    private void borrarAsistenciaClase(String codigo) {
+        databaseReference.child(Refs.asistencia).orderByKey().startAt(codigo)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
 
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()) {
+
+                            for(DataSnapshot dataClases: dataSnapshot.getChildren()) {
+                                if(!dataClases.getKey().startsWith(codigo))
+                                    continue;
+                                databaseReference.child(Refs.asistencia).child(dataClases.getKey()).removeValue();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+    }
+
+    private void borrarAlumnoClase(String codigo, String idControl) {
+        databaseReference.child(Refs.asistencia).orderByKey().startAt(codigo)
+        .addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+
+                    for(DataSnapshot dataClases: dataSnapshot.getChildren()) {
+                        if(!dataClases.getKey().startsWith(codigo))
+                            continue;
+
+                        databaseReference.child(Refs.asistencia).child(dataClases.getKey()).child(idControl).removeValue();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        }
 
 
     private void eliminarAlumnosClase(Clase clase, List<Usuario> alumnos) {

@@ -74,4 +74,11 @@ public class Clase {
         this.correo = correo;
         this.cantidadAlumnos = cantidadAlumnos;
     }
+
+    @Override
+    public String toString() {
+        int max=30;
+        int t = getNombre().length();
+        return t>max?getNombre().substring(0,max/2-2)+"..."+getNombre().substring(t-(max/2),t):getNombre();
+    }
 }

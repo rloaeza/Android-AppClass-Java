@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Ref;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AlumnoDatos extends AppCompatActivity {
     EditText etBT;
@@ -45,6 +46,12 @@ public class AlumnoDatos extends AppCompatActivity {
 
     Button bAceptar;
     Button bCancelar;
+
+    Spinner sClases;
+
+
+    List<Clase> clases;
+    ArrayAdapter<String> adapterSpinner;
 
 
     private ArrayList<String> listaBT;
@@ -68,6 +75,14 @@ public class AlumnoDatos extends AppCompatActivity {
 
         sBT  = findViewById(R.id.sBT);
         ivBuscarBT = findViewById(R.id.ivBuscarBT);
+
+
+        sClases = findViewById(R.id.sClase);
+
+
+        clases = new ArrayList<>();
+        adapterSpinner = new ArrayAdapter(this, android.R.layout.simple_spinner_item, clases);
+        sClases.setAdapter(adapterSpinner);
 
 
         bAceptar.setOnClickListener( e -> {
@@ -94,6 +109,8 @@ public class AlumnoDatos extends AppCompatActivity {
                         Usuario alumno = new Usuario(correoAlumno, nombre, apellidos, id, bt, false);
 
                         databaseReference.child(Refs.usuarios).child(correoFix).setValue(alumno);
+
+                        databaseReference.child(Refs.clases).child(clases.get(sClases.getSelectedItemPosition()).getCodigo()).child(Refs.alumnos).child(Funciones.getCorreoFix(alumno.getCorreo())).setValue(alumno);
                         limpiarCampos();
                         Toast.makeText(AlumnoDatos.this, getString(R.string.alumnoRegistro), Toast.LENGTH_SHORT).show();
 
@@ -168,7 +185,32 @@ public class AlumnoDatos extends AppCompatActivity {
             }
         });
 
+        cargarClases();
+
     }
+
+    private void cargarClases() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference(Refs.AppClass);
+        databaseReference.child(Refs.clases).orderByChild(Refs.bdClaseNombre).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    for(DataSnapshot d : dataSnapshot.getChildren()) {
+                        clases.add(d.getValue(Clase.class));
+                    }
+                    adapterSpinner.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     private void limpiarCampos() {
         etBT.setText("");
